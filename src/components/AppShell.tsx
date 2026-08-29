@@ -208,8 +208,11 @@ function Breadcrumbs() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { role, setRole, organizationId, setOrganizationId, actorName } = useAppState();
+  const { notifications, unreadCount, markNotificationRead, markAllNotificationsRead } =
+    useMockStore();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const unread = notifications.filter((n) => n.unread).length;
+  const unread = unreadCount;
+
 
   return (
     <div className="min-h-screen bg-background">
