@@ -10,33 +10,301 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
+import { Route as AppAssignmentsRouteImport } from './routes/app.assignments'
+import { Route as AppAuditRouteImport } from './routes/app.audit'
+import { Route as AppCompetitionsRouteImport } from './routes/app.competitions'
+import { Route as AppGovernanceRouteImport } from './routes/app.governance'
+import { Route as AppHonorariumRouteImport } from './routes/app.honorarium'
+import { Route as AppIdentityRouteImport } from './routes/app.identity'
+import { Route as AppMasterDataRouteImport } from './routes/app.master-data'
+import { Route as AppRefereesRouteImport } from './routes/app.referees'
+import { Route as AppTeamsRouteImport } from './routes/app.teams'
+import { Route as AppLicensingIndexRouteImport } from './routes/app.licensing.index'
+import { Route as AppLicensingPermitIdRouteImport } from './routes/app.licensing.$permitId'
+import { Route as AppMatchesIndexRouteImport } from './routes/app.matches.index'
+import { Route as AppMatchesMatchIdRouteImport } from './routes/app.matches.$matchId'
+import { Route as AppOrganizationsIndexRouteImport } from './routes/app.organizations.index'
+import { Route as AppOrganizationsOrgIdRouteImport } from './routes/app.organizations.$orgId'
+import { Route as AppOrganizationsNewRouteImport } from './routes/app.organizations.new'
+import { Route as AppPeopleIndexRouteImport } from './routes/app.people.index'
+import { Route as AppPeoplePersonIdRouteImport } from './routes/app.people.$personId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAssignmentsRoute = AppAssignmentsRouteImport.update({
+  id: '/assignments',
+  path: '/assignments',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAuditRoute = AppAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCompetitionsRoute = AppCompetitionsRouteImport.update({
+  id: '/competitions',
+  path: '/competitions',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGovernanceRoute = AppGovernanceRouteImport.update({
+  id: '/governance',
+  path: '/governance',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHonorariumRoute = AppHonorariumRouteImport.update({
+  id: '/honorarium',
+  path: '/honorarium',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppIdentityRoute = AppIdentityRouteImport.update({
+  id: '/identity',
+  path: '/identity',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMasterDataRoute = AppMasterDataRouteImport.update({
+  id: '/master-data',
+  path: '/master-data',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRefereesRoute = AppRefereesRouteImport.update({
+  id: '/referees',
+  path: '/referees',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTeamsRoute = AppTeamsRouteImport.update({
+  id: '/teams',
+  path: '/teams',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLicensingIndexRoute = AppLicensingIndexRouteImport.update({
+  id: '/licensing/',
+  path: '/licensing/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLicensingPermitIdRoute = AppLicensingPermitIdRouteImport.update({
+  id: '/licensing/$permitId',
+  path: '/licensing/$permitId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMatchesIndexRoute = AppMatchesIndexRouteImport.update({
+  id: '/matches/',
+  path: '/matches/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMatchesMatchIdRoute = AppMatchesMatchIdRouteImport.update({
+  id: '/matches/$matchId',
+  path: '/matches/$matchId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrganizationsIndexRoute = AppOrganizationsIndexRouteImport.update({
+  id: '/organizations/',
+  path: '/organizations/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrganizationsOrgIdRoute = AppOrganizationsOrgIdRouteImport.update({
+  id: '/organizations/$orgId',
+  path: '/organizations/$orgId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrganizationsNewRoute = AppOrganizationsNewRouteImport.update({
+  id: '/organizations/new',
+  path: '/organizations/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPeopleIndexRoute = AppPeopleIndexRouteImport.update({
+  id: '/people/',
+  path: '/people/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPeoplePersonIdRoute = AppPeoplePersonIdRouteImport.update({
+  id: '/people/$personId',
+  path: '/people/$personId',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/app/analytics': typeof AppAnalyticsRoute
+  '/app/assignments': typeof AppAssignmentsRoute
+  '/app/audit': typeof AppAuditRoute
+  '/app/competitions': typeof AppCompetitionsRoute
+  '/app/governance': typeof AppGovernanceRoute
+  '/app/honorarium': typeof AppHonorariumRoute
+  '/app/identity': typeof AppIdentityRoute
+  '/app/master-data': typeof AppMasterDataRoute
+  '/app/referees': typeof AppRefereesRoute
+  '/app/teams': typeof AppTeamsRoute
+  '/app/': typeof AppIndexRoute
+  '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
+  '/app/matches/$matchId': typeof AppMatchesMatchIdRoute
+  '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
+  '/app/organizations/new': typeof AppOrganizationsNewRoute
+  '/app/people/$personId': typeof AppPeoplePersonIdRoute
+  '/app/licensing/': typeof AppLicensingIndexRoute
+  '/app/matches/': typeof AppMatchesIndexRoute
+  '/app/organizations/': typeof AppOrganizationsIndexRoute
+  '/app/people/': typeof AppPeopleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/app/analytics': typeof AppAnalyticsRoute
+  '/app/assignments': typeof AppAssignmentsRoute
+  '/app/audit': typeof AppAuditRoute
+  '/app/competitions': typeof AppCompetitionsRoute
+  '/app/governance': typeof AppGovernanceRoute
+  '/app/honorarium': typeof AppHonorariumRoute
+  '/app/identity': typeof AppIdentityRoute
+  '/app/master-data': typeof AppMasterDataRoute
+  '/app/referees': typeof AppRefereesRoute
+  '/app/teams': typeof AppTeamsRoute
+  '/app': typeof AppIndexRoute
+  '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
+  '/app/matches/$matchId': typeof AppMatchesMatchIdRoute
+  '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
+  '/app/organizations/new': typeof AppOrganizationsNewRoute
+  '/app/people/$personId': typeof AppPeoplePersonIdRoute
+  '/app/licensing': typeof AppLicensingIndexRoute
+  '/app/matches': typeof AppMatchesIndexRoute
+  '/app/organizations': typeof AppOrganizationsIndexRoute
+  '/app/people': typeof AppPeopleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/app/analytics': typeof AppAnalyticsRoute
+  '/app/assignments': typeof AppAssignmentsRoute
+  '/app/audit': typeof AppAuditRoute
+  '/app/competitions': typeof AppCompetitionsRoute
+  '/app/governance': typeof AppGovernanceRoute
+  '/app/honorarium': typeof AppHonorariumRoute
+  '/app/identity': typeof AppIdentityRoute
+  '/app/master-data': typeof AppMasterDataRoute
+  '/app/referees': typeof AppRefereesRoute
+  '/app/teams': typeof AppTeamsRoute
+  '/app/': typeof AppIndexRoute
+  '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
+  '/app/matches/$matchId': typeof AppMatchesMatchIdRoute
+  '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
+  '/app/organizations/new': typeof AppOrganizationsNewRoute
+  '/app/people/$personId': typeof AppPeoplePersonIdRoute
+  '/app/licensing/': typeof AppLicensingIndexRoute
+  '/app/matches/': typeof AppMatchesIndexRoute
+  '/app/organizations/': typeof AppOrganizationsIndexRoute
+  '/app/people/': typeof AppPeopleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/auth'
+    | '/app/analytics'
+    | '/app/assignments'
+    | '/app/audit'
+    | '/app/competitions'
+    | '/app/governance'
+    | '/app/honorarium'
+    | '/app/identity'
+    | '/app/master-data'
+    | '/app/referees'
+    | '/app/teams'
+    | '/app/'
+    | '/app/licensing/$permitId'
+    | '/app/matches/$matchId'
+    | '/app/organizations/$orgId'
+    | '/app/organizations/new'
+    | '/app/people/$personId'
+    | '/app/licensing/'
+    | '/app/matches/'
+    | '/app/organizations/'
+    | '/app/people/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/app/analytics'
+    | '/app/assignments'
+    | '/app/audit'
+    | '/app/competitions'
+    | '/app/governance'
+    | '/app/honorarium'
+    | '/app/identity'
+    | '/app/master-data'
+    | '/app/referees'
+    | '/app/teams'
+    | '/app'
+    | '/app/licensing/$permitId'
+    | '/app/matches/$matchId'
+    | '/app/organizations/$orgId'
+    | '/app/organizations/new'
+    | '/app/people/$personId'
+    | '/app/licensing'
+    | '/app/matches'
+    | '/app/organizations'
+    | '/app/people'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/auth'
+    | '/app/analytics'
+    | '/app/assignments'
+    | '/app/audit'
+    | '/app/competitions'
+    | '/app/governance'
+    | '/app/honorarium'
+    | '/app/identity'
+    | '/app/master-data'
+    | '/app/referees'
+    | '/app/teams'
+    | '/app/'
+    | '/app/licensing/$permitId'
+    | '/app/matches/$matchId'
+    | '/app/organizations/$orgId'
+    | '/app/organizations/new'
+    | '/app/people/$personId'
+    | '/app/licensing/'
+    | '/app/matches/'
+    | '/app/organizations/'
+    | '/app/people/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +316,215 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/analytics': {
+      id: '/app/analytics'
+      path: '/analytics'
+      fullPath: '/app/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/assignments': {
+      id: '/app/assignments'
+      path: '/assignments'
+      fullPath: '/app/assignments'
+      preLoaderRoute: typeof AppAssignmentsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/audit': {
+      id: '/app/audit'
+      path: '/audit'
+      fullPath: '/app/audit'
+      preLoaderRoute: typeof AppAuditRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/competitions': {
+      id: '/app/competitions'
+      path: '/competitions'
+      fullPath: '/app/competitions'
+      preLoaderRoute: typeof AppCompetitionsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/governance': {
+      id: '/app/governance'
+      path: '/governance'
+      fullPath: '/app/governance'
+      preLoaderRoute: typeof AppGovernanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/honorarium': {
+      id: '/app/honorarium'
+      path: '/honorarium'
+      fullPath: '/app/honorarium'
+      preLoaderRoute: typeof AppHonorariumRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/identity': {
+      id: '/app/identity'
+      path: '/identity'
+      fullPath: '/app/identity'
+      preLoaderRoute: typeof AppIdentityRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/master-data': {
+      id: '/app/master-data'
+      path: '/master-data'
+      fullPath: '/app/master-data'
+      preLoaderRoute: typeof AppMasterDataRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/referees': {
+      id: '/app/referees'
+      path: '/referees'
+      fullPath: '/app/referees'
+      preLoaderRoute: typeof AppRefereesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/teams': {
+      id: '/app/teams'
+      path: '/teams'
+      fullPath: '/app/teams'
+      preLoaderRoute: typeof AppTeamsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/licensing/': {
+      id: '/app/licensing/'
+      path: '/licensing'
+      fullPath: '/app/licensing/'
+      preLoaderRoute: typeof AppLicensingIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/licensing/$permitId': {
+      id: '/app/licensing/$permitId'
+      path: '/licensing/$permitId'
+      fullPath: '/app/licensing/$permitId'
+      preLoaderRoute: typeof AppLicensingPermitIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/matches/': {
+      id: '/app/matches/'
+      path: '/matches'
+      fullPath: '/app/matches/'
+      preLoaderRoute: typeof AppMatchesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/matches/$matchId': {
+      id: '/app/matches/$matchId'
+      path: '/matches/$matchId'
+      fullPath: '/app/matches/$matchId'
+      preLoaderRoute: typeof AppMatchesMatchIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/organizations/': {
+      id: '/app/organizations/'
+      path: '/organizations'
+      fullPath: '/app/organizations/'
+      preLoaderRoute: typeof AppOrganizationsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/organizations/$orgId': {
+      id: '/app/organizations/$orgId'
+      path: '/organizations/$orgId'
+      fullPath: '/app/organizations/$orgId'
+      preLoaderRoute: typeof AppOrganizationsOrgIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/organizations/new': {
+      id: '/app/organizations/new'
+      path: '/organizations/new'
+      fullPath: '/app/organizations/new'
+      preLoaderRoute: typeof AppOrganizationsNewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/people/': {
+      id: '/app/people/'
+      path: '/people'
+      fullPath: '/app/people/'
+      preLoaderRoute: typeof AppPeopleIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/people/$personId': {
+      id: '/app/people/$personId'
+      path: '/people/$personId'
+      fullPath: '/app/people/$personId'
+      preLoaderRoute: typeof AppPeoplePersonIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppAssignmentsRoute: typeof AppAssignmentsRoute
+  AppAuditRoute: typeof AppAuditRoute
+  AppCompetitionsRoute: typeof AppCompetitionsRoute
+  AppGovernanceRoute: typeof AppGovernanceRoute
+  AppHonorariumRoute: typeof AppHonorariumRoute
+  AppIdentityRoute: typeof AppIdentityRoute
+  AppMasterDataRoute: typeof AppMasterDataRoute
+  AppRefereesRoute: typeof AppRefereesRoute
+  AppTeamsRoute: typeof AppTeamsRoute
+  AppIndexRoute: typeof AppIndexRoute
+  AppLicensingPermitIdRoute: typeof AppLicensingPermitIdRoute
+  AppMatchesMatchIdRoute: typeof AppMatchesMatchIdRoute
+  AppOrganizationsOrgIdRoute: typeof AppOrganizationsOrgIdRoute
+  AppOrganizationsNewRoute: typeof AppOrganizationsNewRoute
+  AppPeoplePersonIdRoute: typeof AppPeoplePersonIdRoute
+  AppLicensingIndexRoute: typeof AppLicensingIndexRoute
+  AppMatchesIndexRoute: typeof AppMatchesIndexRoute
+  AppOrganizationsIndexRoute: typeof AppOrganizationsIndexRoute
+  AppPeopleIndexRoute: typeof AppPeopleIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAnalyticsRoute: AppAnalyticsRoute,
+  AppAssignmentsRoute: AppAssignmentsRoute,
+  AppAuditRoute: AppAuditRoute,
+  AppCompetitionsRoute: AppCompetitionsRoute,
+  AppGovernanceRoute: AppGovernanceRoute,
+  AppHonorariumRoute: AppHonorariumRoute,
+  AppIdentityRoute: AppIdentityRoute,
+  AppMasterDataRoute: AppMasterDataRoute,
+  AppRefereesRoute: AppRefereesRoute,
+  AppTeamsRoute: AppTeamsRoute,
+  AppIndexRoute: AppIndexRoute,
+  AppLicensingPermitIdRoute: AppLicensingPermitIdRoute,
+  AppMatchesMatchIdRoute: AppMatchesMatchIdRoute,
+  AppOrganizationsOrgIdRoute: AppOrganizationsOrgIdRoute,
+  AppOrganizationsNewRoute: AppOrganizationsNewRoute,
+  AppPeoplePersonIdRoute: AppPeoplePersonIdRoute,
+  AppLicensingIndexRoute: AppLicensingIndexRoute,
+  AppMatchesIndexRoute: AppMatchesIndexRoute,
+  AppOrganizationsIndexRoute: AppOrganizationsIndexRoute,
+  AppPeopleIndexRoute: AppPeopleIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
