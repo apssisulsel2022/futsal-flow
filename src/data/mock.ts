@@ -1,0 +1,706 @@
+import type {
+  AuditEntry,
+  Competition,
+  Honorarium,
+  Match,
+  Organization,
+  PermissionRow,
+  PermitApplication,
+  Person,
+  Policy,
+  Referee,
+  Team,
+  Venue,
+} from "./domain";
+
+export const organizations: Organization[] = [
+  {
+    id: "ORG-001",
+    name: "Asosiasi Futsal Provinsi Sulawesi Selatan",
+    shortName: "AFP Sulsel",
+    type: "ASSOCIATION",
+    parentId: null,
+    region: "Sulawesi Selatan",
+    status: "ACTIVE",
+    memberCount: 412,
+    teamCount: 48,
+    createdAt: "2024-01-12",
+    verifiedAt: "2024-01-20",
+    verifiedBy: "Platform Administrator",
+    policies: [
+      { code: "POL-ORG-001", name: "Verifikasi Identitas Anggota", scope: "Organization", status: "ACTIVE" },
+      { code: "POL-ORG-004", name: "SLA Approval Perizinan 5 Hari", scope: "Licensing", status: "ACTIVE" },
+      { code: "POL-ORG-009", name: "Rotasi Penugasan Wasit", scope: "Referee", status: "DRAFT" },
+    ],
+    memberships: [
+      { personId: "PSN-001", name: "Andi Rahman", role: "Association Admin", since: "2024-01-20" },
+      { personId: "PSN-004", name: "Siti Marlina", role: "Referee Coordinator", since: "2024-03-02" },
+      { personId: "PSN-007", name: "Budi Santoso", role: "Finance Officer", since: "2024-05-11" },
+    ],
+  },
+  {
+    id: "ORG-002",
+    name: "Makassar Futsal Club",
+    shortName: "MFC",
+    type: "CLUB",
+    parentId: "ORG-001",
+    region: "Makassar",
+    status: "ACTIVE",
+    memberCount: 64,
+    teamCount: 4,
+    createdAt: "2024-02-08",
+    verifiedAt: "2024-02-18",
+    verifiedBy: "Andi Rahman",
+    policies: [{ code: "POL-ORG-011", name: "Kelengkapan Dokumen Pemain", scope: "Team", status: "ACTIVE" }],
+    memberships: [
+      { personId: "PSN-005", name: "Rizal Hidayat", role: "Club Administrator", since: "2024-02-18" },
+      { personId: "PSN-006", name: "Dewi Anggraini", role: "Team Manager", since: "2024-02-20" },
+    ],
+  },
+  {
+    id: "ORG-003",
+    name: "Nusantara Sport Organizer",
+    shortName: "NSO",
+    type: "EVENT_ORGANIZER",
+    parentId: "ORG-001",
+    region: "Makassar",
+    status: "UNDER_REVIEW",
+    memberCount: 12,
+    teamCount: 0,
+    createdAt: "2025-06-01",
+    verifiedAt: null,
+    verifiedBy: null,
+    policies: [{ code: "POL-ORG-014", name: "Jaminan Keselamatan Event", scope: "Licensing", status: "ACTIVE" }],
+    memberships: [{ personId: "PSN-008", name: "Hendra Wijaya", role: "Event Organizer", since: "2025-06-01" }],
+  },
+  {
+    id: "ORG-004",
+    name: "SMA Negeri 5 Futsal",
+    shortName: "SMAN 5",
+    type: "SCHOOL",
+    parentId: "ORG-001",
+    region: "Gowa",
+    status: "DRAFT",
+    memberCount: 22,
+    teamCount: 1,
+    createdAt: "2026-02-14",
+    verifiedAt: null,
+    verifiedBy: null,
+    policies: [],
+    memberships: [{ personId: "PSN-009", name: "Yusuf Alamsyah", role: "Club Administrator", since: "2026-02-14" }],
+  },
+];
+
+export const people: Person[] = [
+  {
+    id: "PSN-001",
+    organizationId: "ORG-001",
+    fullName: "Andi Rahman",
+    nickname: "Andi",
+    birthDate: "1985-04-11",
+    gender: "M",
+    city: "Makassar",
+    phone: "+62 811-4000-101",
+    email: "andi.rahman@example.id",
+    profiles: ["OFFICIAL"],
+    identityVerified: true,
+    status: "ACTIVE",
+    documents: [
+      { id: "DOC-1", name: "KTP", type: "IDENTITY", status: "VERIFIED", uploadedAt: "2024-01-18", verifiedBy: "Platform Administrator" },
+    ],
+    qualifications: [
+      { name: "Sport Governance Level 1", issuer: "AFP Sulsel", issuedAt: "2023-08-01", expiresAt: "2027-08-01" },
+    ],
+  },
+  {
+    id: "PSN-002",
+    organizationId: "ORG-001",
+    fullName: "Muhammad Faisal",
+    nickname: "Faisal",
+    birthDate: "1990-09-23",
+    gender: "M",
+    city: "Makassar",
+    phone: "+62 812-4000-102",
+    email: "faisal@example.id",
+    profiles: ["REFEREE", "COACH"],
+    identityVerified: true,
+    status: "ACTIVE",
+    documents: [
+      { id: "DOC-2", name: "KTP", type: "IDENTITY", status: "VERIFIED", uploadedAt: "2024-02-01", verifiedBy: "Siti Marlina" },
+      { id: "DOC-3", name: "Sertifikat Wasit Nasional", type: "LICENSE", status: "VERIFIED", uploadedAt: "2024-02-01", verifiedBy: "Siti Marlina" },
+    ],
+    qualifications: [
+      { name: "Referee License — National", issuer: "Federasi Futsal", issuedAt: "2024-01-15", expiresAt: "2027-01-15" },
+      { name: "Coaching License C", issuer: "AFP Sulsel", issuedAt: "2022-06-10", expiresAt: "2026-06-10" },
+    ],
+  },
+  {
+    id: "PSN-003",
+    organizationId: "ORG-001",
+    fullName: "Rina Kartika",
+    nickname: "Rina",
+    birthDate: "1994-01-05",
+    gender: "F",
+    city: "Gowa",
+    phone: "+62 813-4000-103",
+    email: "rina.k@example.id",
+    profiles: ["REFEREE"],
+    identityVerified: true,
+    status: "ACTIVE",
+    documents: [
+      { id: "DOC-4", name: "KTP", type: "IDENTITY", status: "VERIFIED", uploadedAt: "2024-04-11", verifiedBy: "Siti Marlina" },
+      { id: "DOC-5", name: "Surat Keterangan Sehat", type: "MEDICAL", status: "PENDING", uploadedAt: "2026-08-02", verifiedBy: null },
+    ],
+    qualifications: [
+      { name: "Referee License — Provincial", issuer: "AFP Sulsel", issuedAt: "2024-04-01", expiresAt: "2026-10-01" },
+    ],
+  },
+  {
+    id: "PSN-004",
+    organizationId: "ORG-001",
+    fullName: "Siti Marlina",
+    nickname: "Marlin",
+    birthDate: "1988-12-19",
+    gender: "F",
+    city: "Makassar",
+    phone: "+62 814-4000-104",
+    email: "siti.marlina@example.id",
+    profiles: ["OFFICIAL"],
+    identityVerified: true,
+    status: "ACTIVE",
+    documents: [{ id: "DOC-6", name: "KTP", type: "IDENTITY", status: "VERIFIED", uploadedAt: "2024-03-02", verifiedBy: "Andi Rahman" }],
+    qualifications: [{ name: "Referee Assessor", issuer: "Federasi Futsal", issuedAt: "2023-02-01", expiresAt: "2027-02-01" }],
+  },
+  {
+    id: "PSN-005",
+    organizationId: "ORG-002",
+    fullName: "Rizal Hidayat",
+    nickname: "Rizal",
+    birthDate: "1992-07-30",
+    gender: "M",
+    city: "Makassar",
+    phone: "+62 815-4000-105",
+    email: "rizal@example.id",
+    profiles: ["OFFICIAL", "COACH"],
+    identityVerified: true,
+    status: "ACTIVE",
+    documents: [{ id: "DOC-7", name: "KTP", type: "IDENTITY", status: "VERIFIED", uploadedAt: "2024-02-18", verifiedBy: "Andi Rahman" }],
+    qualifications: [],
+  },
+  {
+    id: "PSN-006",
+    organizationId: "ORG-002",
+    fullName: "Dewi Anggraini",
+    nickname: "Dewi",
+    birthDate: "1996-03-17",
+    gender: "F",
+    city: "Makassar",
+    phone: "+62 816-4000-106",
+    email: "dewi@example.id",
+    profiles: ["OFFICIAL"],
+    identityVerified: false,
+    status: "SUBMITTED",
+    documents: [{ id: "DOC-8", name: "KTP", type: "IDENTITY", status: "PENDING", uploadedAt: "2026-08-20", verifiedBy: null }],
+    qualifications: [],
+  },
+  {
+    id: "PSN-010",
+    organizationId: "ORG-002",
+    fullName: "Arif Nugroho",
+    nickname: "Arif",
+    birthDate: "2002-11-02",
+    gender: "M",
+    city: "Makassar",
+    phone: "+62 817-4000-110",
+    email: "arif@example.id",
+    profiles: ["PLAYER"],
+    identityVerified: true,
+    status: "ACTIVE",
+    documents: [{ id: "DOC-9", name: "KTP", type: "IDENTITY", status: "VERIFIED", uploadedAt: "2025-01-08", verifiedBy: "Rizal Hidayat" }],
+    qualifications: [],
+  },
+  {
+    id: "PSN-011",
+    organizationId: "ORG-001",
+    fullName: "Bayu Prasetyo",
+    nickname: "Bayu",
+    birthDate: "1991-05-14",
+    gender: "M",
+    city: "Maros",
+    phone: "+62 818-4000-111",
+    email: "bayu@example.id",
+    profiles: ["REFEREE"],
+    identityVerified: true,
+    status: "ACTIVE",
+    documents: [{ id: "DOC-10", name: "KTP", type: "IDENTITY", status: "VERIFIED", uploadedAt: "2024-06-21", verifiedBy: "Siti Marlina" }],
+    qualifications: [{ name: "Referee License — District", issuer: "AFP Sulsel", issuedAt: "2024-06-01", expiresAt: "2026-12-01" }],
+  },
+  {
+    id: "PSN-012",
+    organizationId: "ORG-001",
+    fullName: "Nurul Aisyah",
+    nickname: "Nurul",
+    birthDate: "1998-08-08",
+    gender: "F",
+    city: "Makassar",
+    phone: "+62 819-4000-112",
+    email: "nurul@example.id",
+    profiles: ["REFEREE"],
+    identityVerified: false,
+    status: "UNDER_REVIEW",
+    documents: [{ id: "DOC-11", name: "Sertifikat Kursus Wasit", type: "LICENSE", status: "PENDING", uploadedAt: "2026-08-25", verifiedBy: null }],
+    qualifications: [],
+  },
+];
+
+export const referees: Referee[] = [
+  {
+    id: "REF-001",
+    personId: "PSN-002",
+    organizationId: "ORG-001",
+    licenseNo: "LIC/FUT/2024/0011",
+    grade: "NATIONAL",
+    licenseStatus: "ACTIVE",
+    licenseExpiresAt: "2027-01-15",
+    city: "Makassar",
+    distanceKm: 4,
+    availability: ["FRI", "SAT", "SUN"],
+    assignmentsThisMonth: 6,
+    performanceScore: 92,
+    conflictOrganizationIds: [],
+  },
+  {
+    id: "REF-002",
+    personId: "PSN-003",
+    organizationId: "ORG-001",
+    licenseNo: "LIC/FUT/2024/0042",
+    grade: "PROVINCIAL",
+    licenseStatus: "ACTIVE",
+    licenseExpiresAt: "2026-10-01",
+    city: "Gowa",
+    distanceKm: 18,
+    availability: ["SAT", "SUN"],
+    assignmentsThisMonth: 3,
+    performanceScore: 88,
+    conflictOrganizationIds: ["ORG-004"],
+  },
+  {
+    id: "REF-003",
+    personId: "PSN-011",
+    organizationId: "ORG-001",
+    licenseNo: "LIC/FUT/2024/0078",
+    grade: "DISTRICT",
+    licenseStatus: "ACTIVE",
+    licenseExpiresAt: "2026-12-01",
+    city: "Maros",
+    distanceKm: 32,
+    availability: ["WED", "SAT"],
+    assignmentsThisMonth: 1,
+    performanceScore: 79,
+    conflictOrganizationIds: ["ORG-002"],
+  },
+  {
+    id: "REF-004",
+    personId: "PSN-012",
+    organizationId: "ORG-001",
+    licenseNo: "—",
+    grade: "CANDIDATE",
+    licenseStatus: "UNDER_REVIEW",
+    licenseExpiresAt: "—",
+    city: "Makassar",
+    distanceKm: 7,
+    availability: ["SAT", "SUN"],
+    assignmentsThisMonth: 0,
+    performanceScore: 0,
+    conflictOrganizationIds: [],
+  },
+];
+
+export const venues: Venue[] = [
+  { id: "VEN-001", organizationId: "ORG-001", name: "GOR Sudiang Arena", city: "Makassar", courts: 2, surface: "Vinyl multilayer", safetyCertified: true, technicalStandard: "FIFA Quality" },
+  { id: "VEN-002", organizationId: "ORG-001", name: "Panakkukang Futsal Center", city: "Makassar", courts: 3, surface: "Parquet", safetyCertified: true, technicalStandard: "National Std." },
+  { id: "VEN-003", organizationId: "ORG-003", name: "Gowa Sport Hall", city: "Gowa", courts: 1, surface: "Rubber", safetyCertified: false, technicalStandard: "Under assessment" },
+];
+
+export const teams: Team[] = [
+  { id: "TEM-001", organizationId: "ORG-002", name: "Makassar FC Senior", city: "Makassar", category: "Men Senior", squadSize: 14, registrationStatus: "ACTIVE" },
+  { id: "TEM-002", organizationId: "ORG-002", name: "Makassar FC U-18", city: "Makassar", category: "Youth U-18", squadSize: 16, registrationStatus: "APPROVED" },
+  { id: "TEM-003", organizationId: "ORG-001", name: "Gowa United", city: "Gowa", category: "Men Senior", squadSize: 13, registrationStatus: "ACTIVE" },
+  { id: "TEM-004", organizationId: "ORG-001", name: "Maros Putra", city: "Maros", category: "Men Senior", squadSize: 12, registrationStatus: "UNDER_REVIEW" },
+  { id: "TEM-005", organizationId: "ORG-001", name: "Srikandi Makassar", city: "Makassar", category: "Women Senior", squadSize: 12, registrationStatus: "ACTIVE" },
+  { id: "TEM-006", organizationId: "ORG-004", name: "SMAN 5 Futsal", city: "Gowa", category: "Youth U-18", squadSize: 15, registrationStatus: "SUBMITTED" },
+];
+
+export const competitions: Competition[] = [
+  { id: "CMP-001", organizationId: "ORG-001", name: "Liga Futsal Sulsel 2026", season: "2026", category: "MEN", format: "LEAGUE", status: "ACTIVE", teamCount: 12, matchCount: 66, regulationCode: "REG-LFS-2026" },
+  { id: "CMP-002", organizationId: "ORG-001", name: "Piala Srikandi 2026", season: "2026", category: "WOMEN", format: "GROUP_KNOCKOUT", status: "ACTIVE", teamCount: 8, matchCount: 16, regulationCode: "REG-PS-2026" },
+  { id: "CMP-003", organizationId: "ORG-003", name: "Nusantara Cup U-18", season: "2026", category: "YOUTH", format: "KNOCKOUT", status: "UNDER_REVIEW", teamCount: 16, matchCount: 15, regulationCode: "REG-NC-2026" },
+];
+
+export const matches: Match[] = [
+  {
+    id: "MTC-001",
+    organizationId: "ORG-001",
+    competitionId: "CMP-001",
+    round: "Pekan 7",
+    venueId: "VEN-001",
+    kickoff: "2026-08-29T13:00:00Z",
+    homeTeamId: "TEM-001",
+    awayTeamId: "TEM-003",
+    homeScore: 4,
+    awayScore: 2,
+    status: "COMPLETED",
+    officials: [
+      { role: "REFEREE_1", refereeId: "REF-001", status: "ATTENDED" },
+      { role: "REFEREE_2", refereeId: "REF-002", status: "ATTENDED" },
+      { role: "THIRD_REFEREE", refereeId: "REF-003", status: "ATTENDED" },
+      { role: "TIMEKEEPER", refereeId: null, status: "UNASSIGNED" },
+      { role: "COMMISSIONER", refereeId: null, status: "UNASSIGNED" },
+    ],
+    events: [
+      { id: "EV-1", minute: 4, half: 1, type: "GOAL", team: "HOME", personName: "Arif Nugroho", detail: "Open play" },
+      { id: "EV-2", minute: 9, half: 1, type: "ACCUMULATED_FOUL", team: "AWAY", personName: "Gowa United", detail: "Foul ke-3" },
+      { id: "EV-3", minute: 12, half: 1, type: "GOAL", team: "AWAY", personName: "Ilham Saputra" },
+      { id: "EV-4", minute: 15, half: 1, type: "TIMEOUT", team: "HOME", personName: "Makassar FC Senior" },
+      { id: "EV-5", minute: 24, half: 2, type: "YELLOW_CARD", team: "AWAY", personName: "Rendi Saputra", detail: "Unsporting behaviour" },
+      { id: "EV-6", minute: 28, half: 2, type: "GOAL", team: "HOME", personName: "Arif Nugroho" },
+      { id: "EV-7", minute: 31, half: 2, type: "SUBSTITUTION", team: "HOME", personName: "Fajar Ramadhan", detail: "Rolling sub" },
+      { id: "EV-8", minute: 34, half: 2, type: "GOAL", team: "HOME", personName: "Fajar Ramadhan" },
+      { id: "EV-9", minute: 37, half: 2, type: "GOAL", team: "AWAY", personName: "Ilham Saputra" },
+      { id: "EV-10", minute: 39, half: 2, type: "GOAL", team: "HOME", personName: "Dimas Prayoga" },
+    ],
+    teamFouls: { home: 3, away: 5 },
+    timeouts: { home: 1, away: 1 },
+    lineup: {
+      home: [
+        { number: 1, name: "Yoga Pratama", role: "Goalkeeper" },
+        { number: 7, name: "Arif Nugroho", role: "Pivot" },
+        { number: 8, name: "Dimas Prayoga", role: "Ala" },
+        { number: 10, name: "Fajar Ramadhan", role: "Ala" },
+        { number: 5, name: "Rian Maulana", role: "Anchor" },
+      ],
+      away: [
+        { number: 12, name: "Bagas Aditya", role: "Goalkeeper" },
+        { number: 9, name: "Ilham Saputra", role: "Pivot" },
+        { number: 4, name: "Rendi Saputra", role: "Anchor" },
+        { number: 11, name: "Teguh Wibowo", role: "Ala" },
+        { number: 6, name: "Aldi Kurnia", role: "Ala" },
+      ],
+    },
+    reportValidated: true,
+    published: true,
+  },
+  {
+    id: "MTC-002",
+    organizationId: "ORG-001",
+    competitionId: "CMP-001",
+    round: "Pekan 8",
+    venueId: "VEN-002",
+    kickoff: "2026-09-05T11:00:00Z",
+    homeTeamId: "TEM-004",
+    awayTeamId: "TEM-001",
+    homeScore: null,
+    awayScore: null,
+    status: "APPROVED",
+    officials: [
+      { role: "REFEREE_1", refereeId: "REF-002", status: "CONFIRMED" },
+      { role: "REFEREE_2", refereeId: null, status: "UNASSIGNED" },
+      { role: "THIRD_REFEREE", refereeId: null, status: "UNASSIGNED" },
+      { role: "TIMEKEEPER", refereeId: null, status: "UNASSIGNED" },
+      { role: "COMMISSIONER", refereeId: null, status: "UNASSIGNED" },
+    ],
+    events: [],
+    teamFouls: { home: 0, away: 0 },
+    timeouts: { home: 0, away: 0 },
+    lineup: { home: [], away: [] },
+    reportValidated: false,
+    published: false,
+  },
+  {
+    id: "MTC-003",
+    organizationId: "ORG-001",
+    competitionId: "CMP-002",
+    round: "Semifinal",
+    venueId: "VEN-001",
+    kickoff: "2026-09-06T09:00:00Z",
+    homeTeamId: "TEM-005",
+    awayTeamId: "TEM-003",
+    homeScore: null,
+    awayScore: null,
+    status: "SUBMITTED",
+    officials: [
+      { role: "REFEREE_1", refereeId: null, status: "UNASSIGNED" },
+      { role: "REFEREE_2", refereeId: null, status: "UNASSIGNED" },
+      { role: "THIRD_REFEREE", refereeId: null, status: "UNASSIGNED" },
+      { role: "TIMEKEEPER", refereeId: null, status: "UNASSIGNED" },
+      { role: "COMMISSIONER", refereeId: null, status: "UNASSIGNED" },
+    ],
+    events: [],
+    teamFouls: { home: 0, away: 0 },
+    timeouts: { home: 0, away: 0 },
+    lineup: { home: [], away: [] },
+    reportValidated: false,
+    published: false,
+  },
+  {
+    id: "MTC-004",
+    organizationId: "ORG-001",
+    competitionId: "CMP-001",
+    round: "Pekan 6",
+    venueId: "VEN-002",
+    kickoff: "2026-08-22T12:00:00Z",
+    homeTeamId: "TEM-003",
+    awayTeamId: "TEM-004",
+    homeScore: 3,
+    awayScore: 3,
+    status: "COMPLETED",
+    officials: [
+      { role: "REFEREE_1", refereeId: "REF-003", status: "ATTENDED" },
+      { role: "REFEREE_2", refereeId: "REF-001", status: "ATTENDED" },
+      { role: "THIRD_REFEREE", refereeId: null, status: "UNASSIGNED" },
+      { role: "TIMEKEEPER", refereeId: null, status: "UNASSIGNED" },
+      { role: "COMMISSIONER", refereeId: null, status: "UNASSIGNED" },
+    ],
+    events: [
+      { id: "EV-21", minute: 6, half: 1, type: "GOAL", team: "HOME", personName: "Ilham Saputra" },
+      { id: "EV-22", minute: 18, half: 1, type: "GOAL", team: "AWAY", personName: "Sandi Pratama" },
+      { id: "EV-23", minute: 33, half: 2, type: "RED_CARD", team: "HOME", personName: "Aldi Kurnia", detail: "Serious foul play" },
+    ],
+    teamFouls: { home: 4, away: 2 },
+    timeouts: { home: 1, away: 0 },
+    lineup: { home: [], away: [] },
+    reportValidated: true,
+    published: true,
+  },
+];
+
+export const permits: PermitApplication[] = [
+  {
+    id: "PRM-001",
+    organizationId: "ORG-003",
+    permitNo: null,
+    eventName: "Nusantara Cup U-18 2026",
+    permitType: "Izin Penyelenggaraan Turnamen",
+    venueId: "VEN-003",
+    startDate: "2026-09-20",
+    endDate: "2026-09-28",
+    status: "UNDER_REVIEW",
+    submittedBy: "Hendra Wijaya",
+    submittedAt: "2026-08-18",
+    reviewer: "Andi Rahman",
+    decisionReason: null,
+    requirements: [
+      { id: "RQ-1", label: "Proposal kegiatan", category: "DOCUMENT", fulfilled: true },
+      { id: "RQ-2", label: "Surat rekomendasi asosiasi", category: "DOCUMENT", fulfilled: true },
+      { id: "RQ-3", label: "Sertifikat kelayakan venue", category: "VENUE", fulfilled: false, note: "Gowa Sport Hall masih dalam asesmen" },
+      { id: "RQ-4", label: "Daftar official & wasit", category: "OFFICIAL", fulfilled: true },
+      { id: "RQ-5", label: "Rencana keselamatan & medis", category: "SAFETY", fulfilled: false, note: "Belum ada tim medis standby" },
+    ],
+    timeline: [
+      { at: "2026-08-18 09:12", actor: "Hendra Wijaya", action: "SUBMITTED" },
+      { at: "2026-08-19 10:40", actor: "Andi Rahman", action: "UNDER_REVIEW", note: "Verifikasi dokumen dimulai" },
+      { at: "2026-08-26 14:05", actor: "Andi Rahman", action: "REQUEST_INFO", note: "Menunggu sertifikat venue & rencana medis" },
+    ],
+  },
+  {
+    id: "PRM-002",
+    organizationId: "ORG-001",
+    permitNo: "AFP/IZN/2026/0114",
+    eventName: "Liga Futsal Sulsel 2026 — Putaran 2",
+    permitType: "Izin Kompetisi Reguler",
+    venueId: "VEN-001",
+    startDate: "2026-08-01",
+    endDate: "2026-11-30",
+    status: "APPROVED",
+    submittedBy: "Andi Rahman",
+    submittedAt: "2026-07-05",
+    reviewer: "Governance Officer",
+    decisionReason: "Seluruh requirement terpenuhi.",
+    requirements: [
+      { id: "RQ-6", label: "Regulasi kompetisi", category: "DOCUMENT", fulfilled: true },
+      { id: "RQ-7", label: "Sertifikat kelayakan venue", category: "VENUE", fulfilled: true },
+      { id: "RQ-8", label: "Penunjukan match commissioner", category: "OFFICIAL", fulfilled: true },
+      { id: "RQ-9", label: "Rencana keselamatan & medis", category: "SAFETY", fulfilled: true },
+    ],
+    timeline: [
+      { at: "2026-07-05 08:00", actor: "Andi Rahman", action: "SUBMITTED" },
+      { at: "2026-07-06 09:30", actor: "Governance Officer", action: "UNDER_REVIEW" },
+      { at: "2026-07-10 16:20", actor: "Governance Officer", action: "APPROVED", note: "Permit AFP/IZN/2026/0114 diterbitkan" },
+    ],
+  },
+  {
+    id: "PRM-003",
+    organizationId: "ORG-002",
+    permitNo: null,
+    eventName: "Turnamen Internal MFC",
+    permitType: "Izin Event Komunitas",
+    venueId: "VEN-002",
+    startDate: "2026-09-12",
+    endDate: "2026-09-13",
+    status: "DRAFT",
+    submittedBy: "Rizal Hidayat",
+    submittedAt: "—",
+    reviewer: null,
+    decisionReason: null,
+    requirements: [
+      { id: "RQ-10", label: "Proposal kegiatan", category: "DOCUMENT", fulfilled: true },
+      { id: "RQ-11", label: "Sertifikat kelayakan venue", category: "VENUE", fulfilled: true },
+      { id: "RQ-12", label: "Daftar official & wasit", category: "OFFICIAL", fulfilled: false },
+      { id: "RQ-13", label: "Rencana keselamatan & medis", category: "SAFETY", fulfilled: false },
+    ],
+    timeline: [{ at: "2026-08-27 20:11", actor: "Rizal Hidayat", action: "DRAFT_CREATED" }],
+  },
+  {
+    id: "PRM-004",
+    organizationId: "ORG-004",
+    permitNo: null,
+    eventName: "Futsal Antar Kelas SMAN 5",
+    permitType: "Izin Event Sekolah",
+    venueId: "VEN-003",
+    startDate: "2026-08-10",
+    endDate: "2026-08-11",
+    status: "REJECTED",
+    submittedBy: "Yusuf Alamsyah",
+    submittedAt: "2026-07-28",
+    reviewer: "Andi Rahman",
+    decisionReason: "Venue belum tersertifikasi dan tidak ada official berlisensi.",
+    requirements: [
+      { id: "RQ-14", label: "Proposal kegiatan", category: "DOCUMENT", fulfilled: true },
+      { id: "RQ-15", label: "Sertifikat kelayakan venue", category: "VENUE", fulfilled: false },
+      { id: "RQ-16", label: "Daftar official & wasit", category: "OFFICIAL", fulfilled: false },
+      { id: "RQ-17", label: "Rencana keselamatan & medis", category: "SAFETY", fulfilled: true },
+    ],
+    timeline: [
+      { at: "2026-07-28 11:00", actor: "Yusuf Alamsyah", action: "SUBMITTED" },
+      { at: "2026-07-30 13:15", actor: "Andi Rahman", action: "REJECTED", note: "Dapat diajukan ulang setelah sertifikasi venue" },
+    ],
+  },
+];
+
+export const honoraria: Honorarium[] = [
+  { id: "HON-001", organizationId: "ORG-001", refereeId: "REF-001", matchId: "MTC-001", role: "Referee 1", amount: 450000, status: "APPROVED", invoiceNo: "INV/HON/2026/0231", period: "Agustus 2026", approvedBy: "Budi Santoso", paidAt: null },
+  { id: "HON-002", organizationId: "ORG-001", refereeId: "REF-002", matchId: "MTC-001", role: "Referee 2", amount: 400000, status: "COMPLETED", invoiceNo: "INV/HON/2026/0232", period: "Agustus 2026", approvedBy: "Budi Santoso", paidAt: "2026-08-28" },
+  { id: "HON-003", organizationId: "ORG-001", refereeId: "REF-003", matchId: "MTC-001", role: "Third Referee", amount: 300000, status: "SUBMITTED", invoiceNo: "INV/HON/2026/0233", period: "Agustus 2026", approvedBy: null, paidAt: null },
+  { id: "HON-004", organizationId: "ORG-001", refereeId: "REF-003", matchId: "MTC-004", role: "Referee 1", amount: 450000, status: "UNDER_REVIEW", invoiceNo: "INV/HON/2026/0228", period: "Agustus 2026", approvedBy: null, paidAt: null },
+  { id: "HON-005", organizationId: "ORG-001", refereeId: "REF-001", matchId: "MTC-004", role: "Referee 2", amount: 400000, status: "COMPLETED", invoiceNo: "INV/HON/2026/0229", period: "Agustus 2026", approvedBy: "Budi Santoso", paidAt: "2026-08-26" },
+];
+
+export const honorariumRates = [
+  { grade: "NATIONAL", role: "Referee 1", amount: 450000 },
+  { grade: "NATIONAL", role: "Referee 2", amount: 400000 },
+  { grade: "PROVINCIAL", role: "Referee 1", amount: 400000 },
+  { grade: "PROVINCIAL", role: "Referee 2", amount: 350000 },
+  { grade: "DISTRICT", role: "Third Referee", amount: 300000 },
+  { grade: "ANY", role: "Timekeeper", amount: 250000 },
+];
+
+export const auditEntries: AuditEntry[] = [
+  { id: "AUD-1001", organizationId: "ORG-001", actor: "Andi Rahman", actorRole: "Association Admin", action: "PERMIT_REVIEW_STARTED", resource: "PermitApplication", resourceId: "PRM-001", before: "SUBMITTED", after: "UNDER_REVIEW", at: "2026-08-19 10:40", ip: "103.12.44.8", reason: "Verifikasi dokumen", correlationId: "cor-8f21a" },
+  { id: "AUD-1002", organizationId: "ORG-001", actor: "Siti Marlina", actorRole: "Referee Coordinator", action: "REFEREE_ASSIGNED", resource: "Match", resourceId: "MTC-002", before: "UNASSIGNED", after: "REF-002 / Referee 1", at: "2026-08-24 09:02", ip: "103.12.44.19", reason: "Rotasi penugasan pekan 8", correlationId: "cor-11c93" },
+  { id: "AUD-1003", organizationId: "ORG-001", actor: "Budi Santoso", actorRole: "Finance Officer", action: "HONORARIUM_APPROVED", resource: "Honorarium", resourceId: "HON-001", before: "SUBMITTED", after: "APPROVED", at: "2026-08-27 15:31", ip: "103.12.44.51", reason: "Sesuai tarif grade nasional", correlationId: "cor-77bd2" },
+  { id: "AUD-1004", organizationId: "ORG-001", actor: "Andi Rahman", actorRole: "Association Admin", action: "PERMIT_REJECTED", resource: "PermitApplication", resourceId: "PRM-004", before: "UNDER_REVIEW", after: "REJECTED", at: "2026-07-30 13:15", ip: "103.12.44.8", reason: "Venue belum tersertifikasi", correlationId: "cor-2ac10" },
+  { id: "AUD-1005", organizationId: "ORG-001", actor: "Siti Marlina", actorRole: "Referee Coordinator", action: "MATCH_REPORT_VALIDATED", resource: "Match", resourceId: "MTC-001", before: "reportValidated=false", after: "reportValidated=true", at: "2026-08-29 16:44", ip: "103.12.44.19", reason: "Laporan lengkap", correlationId: "cor-59e04" },
+  { id: "AUD-1006", organizationId: "ORG-002", actor: "Rizal Hidayat", actorRole: "Club Administrator", action: "TEAM_REGISTRATION_SUBMITTED", resource: "Team", resourceId: "TEM-002", before: "DRAFT", after: "SUBMITTED", at: "2026-08-12 08:20", ip: "180.244.9.71", reason: "Registrasi Liga 2026", correlationId: "cor-9b7f1" },
+];
+
+export const policies: Policy[] = [
+  { code: "SYS-001", name: "Tenant Isolation", kind: "SYSTEM_RULE", version: "1.0", owner: "Platform", status: "ACTIVE", summary: "Setiap aggregate root operasional wajib memiliki organization ownership." },
+  { code: "SYS-004", name: "Audit Mandatory on Critical Action", kind: "SYSTEM_RULE", version: "1.0", owner: "Platform", status: "ACTIVE", summary: "Approval, rejection, assignment, payment, dan perubahan permission wajib tercatat." },
+  { code: "POL-ORG-004", name: "SLA Approval Perizinan", kind: "ORGANIZATION_POLICY", version: "1.2", owner: "AFP Sulsel", status: "ACTIVE", summary: "Keputusan izin maksimal 5 hari kerja sejak status UNDER_REVIEW." },
+  { code: "POL-ORG-009", name: "Rotasi Penugasan Wasit", kind: "ORGANIZATION_POLICY", version: "0.3", owner: "AFP Sulsel", status: "DRAFT", summary: "Maksimal 8 penugasan per wasit per bulan dan tidak boleh conflict of interest." },
+  { code: "REG-LFS-2026", name: "Regulasi Liga Futsal Sulsel 2026", kind: "COMPETITION_REGULATION", version: "1.0", owner: "Competition Admin", status: "ACTIVE", summary: "Format liga penuh, akumulasi 5 pelanggaran per babak, rolling substitution." },
+  { code: "REG-PS-2026", name: "Regulasi Piala Srikandi 2026", kind: "COMPETITION_REGULATION", version: "1.0", owner: "Competition Admin", status: "ACTIVE", summary: "Grup + knockout, perpanjangan waktu 2x5 menit pada fase gugur." },
+];
+
+export const permissionMatrix: PermissionRow[] = [
+  { permission: "organization.manage", resource: "Organization", scope: "Organization", roles: ["association_admin"], policy: "SYS-001" },
+  { permission: "person.verify", resource: "Person", scope: "Organization", roles: ["association_admin"], policy: "POL-ORG-001" },
+  { permission: "permit.submit", resource: "PermitApplication", scope: "Organization", roles: ["event_organizer", "team_manager"], policy: "POL-ORG-014" },
+  { permission: "permit.approve", resource: "PermitApplication", scope: "Organization", roles: ["association_admin"], policy: "POL-ORG-004" },
+  { permission: "referee.assign", resource: "Match", scope: "Competition", roles: ["association_admin"], policy: "POL-ORG-009" },
+  { permission: "referee.confirm", resource: "MatchOfficialAssignment", scope: "Self", roles: ["referee"], policy: "POL-ORG-009" },
+  { permission: "honorarium.approve", resource: "Honorarium", scope: "Organization", roles: ["association_admin"], policy: "SYS-004" },
+  { permission: "match.operate", resource: "Match", scope: "Match", roles: ["referee", "event_organizer"], policy: "REG-LFS-2026" },
+  { permission: "team.register", resource: "Team", scope: "Organization", roles: ["team_manager"], policy: "POL-ORG-011" },
+  { permission: "audit.read", resource: "AuditEntry", scope: "Organization", roles: ["association_admin"], policy: "SYS-004" },
+];
+
+export const sessions = [
+  { id: "SES-1", device: "Chrome — macOS", location: "Makassar, ID", ip: "103.12.44.8", lastActive: "2026-08-29 11:02", current: true },
+  { id: "SES-2", device: "Safari — iPhone 15", location: "Makassar, ID", ip: "114.9.20.33", lastActive: "2026-08-28 19:47", current: false },
+  { id: "SES-3", device: "Edge — Windows", location: "Gowa, ID", ip: "180.244.9.71", lastActive: "2026-08-21 08:15", current: false },
+];
+
+export const notifications = [
+  { id: "NTF-1", event: "PermitSubmitted", title: "Pengajuan izin baru", body: "Nusantara Cup U-18 2026 menunggu review.", at: "2 jam lalu", unread: true },
+  { id: "NTF-2", event: "RefereeConfirmed", title: "Wasit mengonfirmasi", body: "Rina Kartika mengonfirmasi Maros Putra vs Makassar FC.", at: "5 jam lalu", unread: true },
+  { id: "NTF-3", event: "HonorariumApproved", title: "Honorarium disetujui", body: "INV/HON/2026/0231 disetujui Finance Officer.", at: "Kemarin", unread: false },
+  { id: "NTF-4", event: "MatchCompleted", title: "Pertandingan selesai", body: "Makassar FC 4 - 2 Gowa United telah divalidasi.", at: "Kemarin", unread: false },
+];
+
+export const masterData = {
+  competitionCategories: [
+    { code: "MEN", name: "Men Senior", ageRule: "17+" },
+    { code: "WOMEN", name: "Women Senior", ageRule: "17+" },
+    { code: "U18", name: "Youth U-18", ageRule: "15–18" },
+    { code: "COMMUNITY", name: "Community", ageRule: "Bebas" },
+  ],
+  permitTypes: [
+    { code: "PT-TOUR", name: "Izin Penyelenggaraan Turnamen", requirements: 5, sla: "5 hari kerja" },
+    { code: "PT-LEAGUE", name: "Izin Kompetisi Reguler", requirements: 4, sla: "7 hari kerja" },
+    { code: "PT-COM", name: "Izin Event Komunitas", requirements: 4, sla: "3 hari kerja" },
+    { code: "PT-SCHOOL", name: "Izin Event Sekolah", requirements: 4, sla: "3 hari kerja" },
+  ],
+  refereeGrades: [
+    { code: "NATIONAL", name: "Nasional", maxLevel: "Liga nasional" },
+    { code: "PROVINCIAL", name: "Provinsi", maxLevel: "Liga provinsi" },
+    { code: "DISTRICT", name: "Kabupaten/Kota", maxLevel: "Kompetisi daerah" },
+    { code: "CANDIDATE", name: "Kandidat", maxLevel: "Uji coba" },
+  ],
+};
+
+// ---------- Public read model (published data only) ----------
+
+export const publicStandings = [
+  { pos: 1, team: "Makassar FC Senior", p: 7, w: 6, d: 1, l: 0, gf: 31, ga: 12, pts: 19 },
+  { pos: 2, team: "Gowa United", p: 7, w: 4, d: 2, l: 1, gf: 24, ga: 17, pts: 14 },
+  { pos: 3, team: "Maros Putra", p: 7, w: 3, d: 2, l: 2, gf: 19, ga: 18, pts: 11 },
+  { pos: 4, team: "Srikandi Makassar", p: 6, w: 2, d: 1, l: 3, gf: 14, ga: 16, pts: 7 },
+];
+
+export const publicTopScorers = [
+  { name: "Arif Nugroho", team: "Makassar FC Senior", goals: 12 },
+  { name: "Ilham Saputra", team: "Gowa United", goals: 9 },
+  { name: "Sandi Pratama", team: "Maros Putra", goals: 7 },
+  { name: "Fajar Ramadhan", team: "Makassar FC Senior", goals: 6 },
+];
+
+// ---------- Lookup helpers ----------
+
+export const orgById = (id: string) => organizations.find((o) => o.id === id);
+export const personById = (id: string) => people.find((p) => p.id === id);
+export const teamById = (id: string) => teams.find((t) => t.id === id);
+export const venueById = (id: string) => venues.find((v) => v.id === id);
+export const competitionById = (id: string) => competitions.find((c) => c.id === id);
+export const matchById = (id: string) => matches.find((m) => m.id === id);
+export const refereeById = (id: string) => referees.find((r) => r.id === id);
+export const refereeName = (id: string | null) => {
+  if (!id) return null;
+  const ref = refereeById(id);
+  return ref ? (personById(ref.personId)?.fullName ?? id) : id;
+};
+
+export const formatIDR = (value: number) =>
+  new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(value);
+
+export const formatDateTime = (iso: string) =>
+  new Intl.DateTimeFormat("id-ID", { dateStyle: "medium", timeStyle: "short", timeZone: "Asia/Makassar" }).format(
+    new Date(iso),
+  );
+
+export const formatDate = (iso: string) => {
+  if (!iso || iso === "—") return "—";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return new Intl.DateTimeFormat("id-ID", { dateStyle: "medium" }).format(d);
+};

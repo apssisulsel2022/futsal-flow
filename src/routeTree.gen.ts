@@ -10,33 +10,157 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppMasterDataRouteImport } from './routes/app.master-data'
+import { Route as AppRefereesRouteImport } from './routes/app.referees'
+import { Route as AppOrganizationsIndexRouteImport } from './routes/app.organizations.index'
+import { Route as AppOrganizationsOrgIdRouteImport } from './routes/app.organizations.$orgId'
+import { Route as AppOrganizationsNewRouteImport } from './routes/app.organizations.new'
+import { Route as AppPeopleIndexRouteImport } from './routes/app.people.index'
+import { Route as AppPeoplePersonIdRouteImport } from './routes/app.people.$personId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMasterDataRoute = AppMasterDataRouteImport.update({
+  id: '/master-data',
+  path: '/master-data',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRefereesRoute = AppRefereesRouteImport.update({
+  id: '/referees',
+  path: '/referees',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrganizationsIndexRoute = AppOrganizationsIndexRouteImport.update({
+  id: '/organizations/',
+  path: '/organizations/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrganizationsOrgIdRoute = AppOrganizationsOrgIdRouteImport.update({
+  id: '/organizations/$orgId',
+  path: '/organizations/$orgId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrganizationsNewRoute = AppOrganizationsNewRouteImport.update({
+  id: '/organizations/new',
+  path: '/organizations/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPeopleIndexRoute = AppPeopleIndexRouteImport.update({
+  id: '/people/',
+  path: '/people/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPeoplePersonIdRoute = AppPeoplePersonIdRouteImport.update({
+  id: '/people/$personId',
+  path: '/people/$personId',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/app/master-data': typeof AppMasterDataRoute
+  '/app/referees': typeof AppRefereesRoute
+  '/app/': typeof AppIndexRoute
+  '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
+  '/app/organizations/new': typeof AppOrganizationsNewRoute
+  '/app/people/$personId': typeof AppPeoplePersonIdRoute
+  '/app/organizations/': typeof AppOrganizationsIndexRoute
+  '/app/people/': typeof AppPeopleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/app/master-data': typeof AppMasterDataRoute
+  '/app/referees': typeof AppRefereesRoute
+  '/app': typeof AppIndexRoute
+  '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
+  '/app/organizations/new': typeof AppOrganizationsNewRoute
+  '/app/people/$personId': typeof AppPeoplePersonIdRoute
+  '/app/organizations': typeof AppOrganizationsIndexRoute
+  '/app/people': typeof AppPeopleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/app/master-data': typeof AppMasterDataRoute
+  '/app/referees': typeof AppRefereesRoute
+  '/app/': typeof AppIndexRoute
+  '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
+  '/app/organizations/new': typeof AppOrganizationsNewRoute
+  '/app/people/$personId': typeof AppPeoplePersonIdRoute
+  '/app/organizations/': typeof AppOrganizationsIndexRoute
+  '/app/people/': typeof AppPeopleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/auth'
+    | '/app/master-data'
+    | '/app/referees'
+    | '/app/'
+    | '/app/organizations/$orgId'
+    | '/app/organizations/new'
+    | '/app/people/$personId'
+    | '/app/organizations/'
+    | '/app/people/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/app/master-data'
+    | '/app/referees'
+    | '/app'
+    | '/app/organizations/$orgId'
+    | '/app/organizations/new'
+    | '/app/people/$personId'
+    | '/app/organizations'
+    | '/app/people'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/auth'
+    | '/app/master-data'
+    | '/app/referees'
+    | '/app/'
+    | '/app/organizations/$orgId'
+    | '/app/organizations/new'
+    | '/app/people/$personId'
+    | '/app/organizations/'
+    | '/app/people/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +172,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/master-data': {
+      id: '/app/master-data'
+      path: '/master-data'
+      fullPath: '/app/master-data'
+      preLoaderRoute: typeof AppMasterDataRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/referees': {
+      id: '/app/referees'
+      path: '/referees'
+      fullPath: '/app/referees'
+      preLoaderRoute: typeof AppRefereesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/organizations/': {
+      id: '/app/organizations/'
+      path: '/organizations'
+      fullPath: '/app/organizations/'
+      preLoaderRoute: typeof AppOrganizationsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/organizations/$orgId': {
+      id: '/app/organizations/$orgId'
+      path: '/organizations/$orgId'
+      fullPath: '/app/organizations/$orgId'
+      preLoaderRoute: typeof AppOrganizationsOrgIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/organizations/new': {
+      id: '/app/organizations/new'
+      path: '/organizations/new'
+      fullPath: '/app/organizations/new'
+      preLoaderRoute: typeof AppOrganizationsNewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/people/': {
+      id: '/app/people/'
+      path: '/people'
+      fullPath: '/app/people/'
+      preLoaderRoute: typeof AppPeopleIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/people/$personId': {
+      id: '/app/people/$personId'
+      path: '/people/$personId'
+      fullPath: '/app/people/$personId'
+      preLoaderRoute: typeof AppPeoplePersonIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppMasterDataRoute: typeof AppMasterDataRoute
+  AppRefereesRoute: typeof AppRefereesRoute
+  AppIndexRoute: typeof AppIndexRoute
+  AppOrganizationsOrgIdRoute: typeof AppOrganizationsOrgIdRoute
+  AppOrganizationsNewRoute: typeof AppOrganizationsNewRoute
+  AppPeoplePersonIdRoute: typeof AppPeoplePersonIdRoute
+  AppOrganizationsIndexRoute: typeof AppOrganizationsIndexRoute
+  AppPeopleIndexRoute: typeof AppPeopleIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppMasterDataRoute: AppMasterDataRoute,
+  AppRefereesRoute: AppRefereesRoute,
+  AppIndexRoute: AppIndexRoute,
+  AppOrganizationsOrgIdRoute: AppOrganizationsOrgIdRoute,
+  AppOrganizationsNewRoute: AppOrganizationsNewRoute,
+  AppPeoplePersonIdRoute: AppPeoplePersonIdRoute,
+  AppOrganizationsIndexRoute: AppOrganizationsIndexRoute,
+  AppPeopleIndexRoute: AppPeopleIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
