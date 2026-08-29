@@ -18,6 +18,7 @@ import { Route as AppRefereesRouteImport } from './routes/app.referees'
 import { Route as AppLicensingIndexRouteImport } from './routes/app.licensing.index'
 import { Route as AppLicensingPermitIdRouteImport } from './routes/app.licensing.$permitId'
 import { Route as AppMatchesIndexRouteImport } from './routes/app.matches.index'
+import { Route as AppMatchesMatchIdRouteImport } from './routes/app.matches.$matchId'
 import { Route as AppOrganizationsIndexRouteImport } from './routes/app.organizations.index'
 import { Route as AppOrganizationsOrgIdRouteImport } from './routes/app.organizations.$orgId'
 import { Route as AppOrganizationsNewRouteImport } from './routes/app.organizations.new'
@@ -69,6 +70,11 @@ const AppMatchesIndexRoute = AppMatchesIndexRouteImport.update({
   path: '/matches/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppMatchesMatchIdRoute = AppMatchesMatchIdRouteImport.update({
+  id: '/matches/$matchId',
+  path: '/matches/$matchId',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppOrganizationsIndexRoute = AppOrganizationsIndexRouteImport.update({
   id: '/organizations/',
   path: '/organizations/',
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/app/referees': typeof AppRefereesRoute
   '/app/': typeof AppIndexRoute
   '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
+  '/app/matches/$matchId': typeof AppMatchesMatchIdRoute
   '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
   '/app/organizations/new': typeof AppOrganizationsNewRoute
   '/app/people/$personId': typeof AppPeoplePersonIdRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/app/referees': typeof AppRefereesRoute
   '/app': typeof AppIndexRoute
   '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
+  '/app/matches/$matchId': typeof AppMatchesMatchIdRoute
   '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
   '/app/organizations/new': typeof AppOrganizationsNewRoute
   '/app/people/$personId': typeof AppPeoplePersonIdRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/app/referees': typeof AppRefereesRoute
   '/app/': typeof AppIndexRoute
   '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
+  '/app/matches/$matchId': typeof AppMatchesMatchIdRoute
   '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
   '/app/organizations/new': typeof AppOrganizationsNewRoute
   '/app/people/$personId': typeof AppPeoplePersonIdRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/app/referees'
     | '/app/'
     | '/app/licensing/$permitId'
+    | '/app/matches/$matchId'
     | '/app/organizations/$orgId'
     | '/app/organizations/new'
     | '/app/people/$personId'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/app/referees'
     | '/app'
     | '/app/licensing/$permitId'
+    | '/app/matches/$matchId'
     | '/app/organizations/$orgId'
     | '/app/organizations/new'
     | '/app/people/$personId'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/app/referees'
     | '/app/'
     | '/app/licensing/$permitId'
+    | '/app/matches/$matchId'
     | '/app/organizations/$orgId'
     | '/app/organizations/new'
     | '/app/people/$personId'
@@ -264,6 +276,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMatchesIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/matches/$matchId': {
+      id: '/app/matches/$matchId'
+      path: '/matches/$matchId'
+      fullPath: '/app/matches/$matchId'
+      preLoaderRoute: typeof AppMatchesMatchIdRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/organizations/': {
       id: '/app/organizations/'
       path: '/organizations'
@@ -307,6 +326,7 @@ interface AppRouteChildren {
   AppRefereesRoute: typeof AppRefereesRoute
   AppIndexRoute: typeof AppIndexRoute
   AppLicensingPermitIdRoute: typeof AppLicensingPermitIdRoute
+  AppMatchesMatchIdRoute: typeof AppMatchesMatchIdRoute
   AppOrganizationsOrgIdRoute: typeof AppOrganizationsOrgIdRoute
   AppOrganizationsNewRoute: typeof AppOrganizationsNewRoute
   AppPeoplePersonIdRoute: typeof AppPeoplePersonIdRoute
@@ -321,6 +341,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppRefereesRoute: AppRefereesRoute,
   AppIndexRoute: AppIndexRoute,
   AppLicensingPermitIdRoute: AppLicensingPermitIdRoute,
+  AppMatchesMatchIdRoute: AppMatchesMatchIdRoute,
   AppOrganizationsOrgIdRoute: AppOrganizationsOrgIdRoute,
   AppOrganizationsNewRoute: AppOrganizationsNewRoute,
   AppPeoplePersonIdRoute: AppPeoplePersonIdRoute,
