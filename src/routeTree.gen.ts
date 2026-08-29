@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppAssignmentsRouteImport } from './routes/app.assignments'
 import { Route as AppAuditRouteImport } from './routes/app.audit'
+import { Route as AppCompetitionsRouteImport } from './routes/app.competitions'
 import { Route as AppGovernanceRouteImport } from './routes/app.governance'
 import { Route as AppHonorariumRouteImport } from './routes/app.honorarium'
 import { Route as AppIdentityRouteImport } from './routes/app.identity'
@@ -59,6 +60,11 @@ const AppAssignmentsRoute = AppAssignmentsRouteImport.update({
 const AppAuditRoute = AppAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCompetitionsRoute = AppCompetitionsRouteImport.update({
+  id: '/competitions',
+  path: '/competitions',
   getParentRoute: () => AppRoute,
 } as any)
 const AppGovernanceRoute = AppGovernanceRouteImport.update({
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/app/assignments': typeof AppAssignmentsRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/competitions': typeof AppCompetitionsRoute
   '/app/governance': typeof AppGovernanceRoute
   '/app/honorarium': typeof AppHonorariumRoute
   '/app/identity': typeof AppIdentityRoute
@@ -165,6 +172,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/app/assignments': typeof AppAssignmentsRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/competitions': typeof AppCompetitionsRoute
   '/app/governance': typeof AppGovernanceRoute
   '/app/honorarium': typeof AppHonorariumRoute
   '/app/identity': typeof AppIdentityRoute
@@ -189,6 +197,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/app/assignments': typeof AppAssignmentsRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/competitions': typeof AppCompetitionsRoute
   '/app/governance': typeof AppGovernanceRoute
   '/app/honorarium': typeof AppHonorariumRoute
   '/app/identity': typeof AppIdentityRoute
@@ -214,6 +223,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/app/assignments'
     | '/app/audit'
+    | '/app/competitions'
     | '/app/governance'
     | '/app/honorarium'
     | '/app/identity'
@@ -236,6 +246,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/app/assignments'
     | '/app/audit'
+    | '/app/competitions'
     | '/app/governance'
     | '/app/honorarium'
     | '/app/identity'
@@ -259,6 +270,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/app/assignments'
     | '/app/audit'
+    | '/app/competitions'
     | '/app/governance'
     | '/app/honorarium'
     | '/app/identity'
@@ -325,6 +337,13 @@ declare module '@tanstack/react-router' {
       path: '/audit'
       fullPath: '/app/audit'
       preLoaderRoute: typeof AppAuditRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/competitions': {
+      id: '/app/competitions'
+      path: '/competitions'
+      fullPath: '/app/competitions'
+      preLoaderRoute: typeof AppCompetitionsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/governance': {
@@ -438,6 +457,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppAssignmentsRoute: typeof AppAssignmentsRoute
   AppAuditRoute: typeof AppAuditRoute
+  AppCompetitionsRoute: typeof AppCompetitionsRoute
   AppGovernanceRoute: typeof AppGovernanceRoute
   AppHonorariumRoute: typeof AppHonorariumRoute
   AppIdentityRoute: typeof AppIdentityRoute
@@ -459,6 +479,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAssignmentsRoute: AppAssignmentsRoute,
   AppAuditRoute: AppAuditRoute,
+  AppCompetitionsRoute: AppCompetitionsRoute,
   AppGovernanceRoute: AppGovernanceRoute,
   AppHonorariumRoute: AppHonorariumRoute,
   AppIdentityRoute: AppIdentityRoute,
