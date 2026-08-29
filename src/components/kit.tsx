@@ -352,3 +352,38 @@ export function MockNotice({ children }: { children?: ReactNode }) {
     </p>
   );
 }
+
+export function FilterSelect({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: { value: string; label: string }[];
+}) {
+  return (
+    <label className="flex items-center gap-1.5 text-xs text-muted-foreground">
+      <span className="hidden sm:inline">{label}</span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        aria-label={label}
+        className="h-9 rounded-md border border-input bg-background px-2 text-xs text-foreground"
+      >
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+export const statusOptions = (statuses: string[]) => [
+  { value: "ALL", label: "Semua status" },
+  ...statuses.map((s) => ({ value: s, label: s.replace(/_/g, " ") })),
+];

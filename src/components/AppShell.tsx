@@ -29,8 +29,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { notifications, organizations } from "@/data/mock";
+import { organizations } from "@/data/mock";
 import { roleLabels, useAppState } from "@/context/app-state";
+import { useMockStore } from "@/context/mock-store";
+
 import type { RoleKey } from "@/data/domain";
 import { cn } from "@/lib/utils";
 
@@ -206,8 +208,11 @@ function Breadcrumbs() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { role, setRole, organizationId, setOrganizationId, actorName } = useAppState();
+  const { notifications, unreadCount, markNotificationRead, markAllNotificationsRead } =
+    useMockStore();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const unread = notifications.filter((n) => n.unread).length;
+  const unread = unreadCount;
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -271,25 +276,42 @@ export function AppShell({ children }: { children: ReactNode }) {
                   ) : null}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent align="end" className="w-80 p-0">
-                <p className="border-b border-border px-3 py-2 text-xs font-semibold tracking-wide uppercase">
-                  Notification Center
-                </p>
+              <PopoverContent align="end" className="w-[min(20rem,calc(100vw-2rem))] p-0">
+                <div className="flex items-center justify-between gap-2 border-b border-border px-3 py-2">
+                  <p className="text-xs font-semibold tracking-wide uppercase">
+                    Notification Center
+                  </p>
+                  <button
+                    type="button"
+                    onClick={markAllNotificationsRead}
+                    disabled={unread === 0}
+                    className="text-[11px] text-primary hover:underline disabled:opacity-40"
+                  >
+                    Tandai semua dibaca
+                  </button>
+                </div>
                 <ul className="max-h-80 overflow-y-auto">
                   {notifications.map((n) => (
-                    <li key={n.id} className="border-b border-border px-3 py-2.5 last:border-0">
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="text-sm font-medium">{n.title}</p>
-                        {n.unread ? <span className="size-1.5 rounded-full bg-primary" /> : null}
-                      </div>
-                      <p className="mt-0.5 text-xs text-muted-foreground">{n.body}</p>
-                      <p className="mt-1 font-mono text-[10px] text-muted-foreground">
-                        {n.event} · {n.at}
-                      </p>
+                    <li key={n.id} className="border-b border-border last:border-0">
+                      <button
+                        type="button"
+                        onClick={() => markNotificationRead(n.id)}
+                        className="w-full px-3 py-2.5 text-left hover:bg-muted/50"
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-sm font-medium">{n.title}</p>
+                          {n.unread ? <span className="size-1.5 rounded-full bg-primary" /> : null}
+                        </div>
+                        <p className="mt-0.5 text-xs text-muted-foreground">{n.body}</p>
+                        <p className="mt-1 font-mono text-[10px] text-muted-foreground">
+                          {n.event} · {n.at}
+                        </p>
+                      </button>
                     </li>
                   ))}
                 </ul>
               </PopoverContent>
+
             </Popover>
 
             <div className="hidden items-center gap-2 border-l border-border pl-2 md:flex">

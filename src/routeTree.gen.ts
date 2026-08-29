@@ -26,6 +26,7 @@ import { Route as AppRefereesRouteImport } from './routes/app.referees'
 import { Route as AppTeamsRouteImport } from './routes/app.teams'
 import { Route as AppLicensingIndexRouteImport } from './routes/app.licensing.index'
 import { Route as AppLicensingPermitIdRouteImport } from './routes/app.licensing.$permitId'
+import { Route as AppLicensingNewRouteImport } from './routes/app.licensing.new'
 import { Route as AppMatchesIndexRouteImport } from './routes/app.matches.index'
 import { Route as AppMatchesMatchIdRouteImport } from './routes/app.matches.$matchId'
 import { Route as AppOrganizationsIndexRouteImport } from './routes/app.organizations.index'
@@ -119,6 +120,11 @@ const AppLicensingPermitIdRoute = AppLicensingPermitIdRouteImport.update({
   path: '/licensing/$permitId',
   getParentRoute: () => AppRoute,
 } as any)
+const AppLicensingNewRoute = AppLicensingNewRouteImport.update({
+  id: '/licensing/new',
+  path: '/licensing/new',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppMatchesIndexRoute = AppMatchesIndexRouteImport.update({
   id: '/matches/',
   path: '/matches/',
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/app/teams': typeof AppTeamsRoute
   '/app/': typeof AppIndexRoute
   '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
+  '/app/licensing/new': typeof AppLicensingNewRoute
   '/app/matches/$matchId': typeof AppMatchesMatchIdRoute
   '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
   '/app/organizations/new': typeof AppOrganizationsNewRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByTo {
   '/app/teams': typeof AppTeamsRoute
   '/app': typeof AppIndexRoute
   '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
+  '/app/licensing/new': typeof AppLicensingNewRoute
   '/app/matches/$matchId': typeof AppMatchesMatchIdRoute
   '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
   '/app/organizations/new': typeof AppOrganizationsNewRoute
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/app/teams': typeof AppTeamsRoute
   '/app/': typeof AppIndexRoute
   '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
+  '/app/licensing/new': typeof AppLicensingNewRoute
   '/app/matches/$matchId': typeof AppMatchesMatchIdRoute
   '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
   '/app/organizations/new': typeof AppOrganizationsNewRoute
@@ -252,6 +261,7 @@ export interface FileRouteTypes {
     | '/app/teams'
     | '/app/'
     | '/app/licensing/$permitId'
+    | '/app/licensing/new'
     | '/app/matches/$matchId'
     | '/app/organizations/$orgId'
     | '/app/organizations/new'
@@ -277,6 +287,7 @@ export interface FileRouteTypes {
     | '/app/teams'
     | '/app'
     | '/app/licensing/$permitId'
+    | '/app/licensing/new'
     | '/app/matches/$matchId'
     | '/app/organizations/$orgId'
     | '/app/organizations/new'
@@ -303,6 +314,7 @@ export interface FileRouteTypes {
     | '/app/teams'
     | '/app/'
     | '/app/licensing/$permitId'
+    | '/app/licensing/new'
     | '/app/matches/$matchId'
     | '/app/organizations/$orgId'
     | '/app/organizations/new'
@@ -441,6 +453,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLicensingPermitIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/licensing/new': {
+      id: '/app/licensing/new'
+      path: '/licensing/new'
+      fullPath: '/app/licensing/new'
+      preLoaderRoute: typeof AppLicensingNewRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/matches/': {
       id: '/app/matches/'
       path: '/matches'
@@ -506,6 +525,7 @@ interface AppRouteChildren {
   AppTeamsRoute: typeof AppTeamsRoute
   AppIndexRoute: typeof AppIndexRoute
   AppLicensingPermitIdRoute: typeof AppLicensingPermitIdRoute
+  AppLicensingNewRoute: typeof AppLicensingNewRoute
   AppMatchesMatchIdRoute: typeof AppMatchesMatchIdRoute
   AppOrganizationsOrgIdRoute: typeof AppOrganizationsOrgIdRoute
   AppOrganizationsNewRoute: typeof AppOrganizationsNewRoute
@@ -529,6 +549,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppTeamsRoute: AppTeamsRoute,
   AppIndexRoute: AppIndexRoute,
   AppLicensingPermitIdRoute: AppLicensingPermitIdRoute,
+  AppLicensingNewRoute: AppLicensingNewRoute,
   AppMatchesMatchIdRoute: AppMatchesMatchIdRoute,
   AppOrganizationsOrgIdRoute: AppOrganizationsOrgIdRoute,
   AppOrganizationsNewRoute: AppOrganizationsNewRoute,

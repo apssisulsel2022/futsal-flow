@@ -1,6 +1,8 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { AppStateProvider } from "@/context/app-state";
+import { MockStoreProvider } from "@/context/mock-store";
+
 
 export const Route = createFileRoute("/app")({
   head: () => ({
@@ -24,9 +26,12 @@ export const Route = createFileRoute("/app")({
 function AppLayout() {
   return (
     <AppStateProvider>
-      <AppShell>
-        <Outlet />
-      </AppShell>
+      <MockStoreProvider>
+        <AppShell>
+          <Outlet />
+        </AppShell>
+      </MockStoreProvider>
     </AppStateProvider>
   );
 }
+
