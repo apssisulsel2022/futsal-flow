@@ -29,8 +29,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { notifications, organizations } from "@/data/mock";
+import { organizations } from "@/data/mock";
 import { roleLabels, useAppState } from "@/context/app-state";
+import { useMockStore } from "@/context/mock-store";
+
 import type { RoleKey } from "@/data/domain";
 import { cn } from "@/lib/utils";
 
