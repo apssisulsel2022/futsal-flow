@@ -1,4 +1,5 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,23 +13,53 @@ import {
   StatusBadge,
   Timeline,
 } from "@/components/kit";
-import { formatDate, orgById, permits, venueById } from "@/data/mock";
+import { formatDate, orgById, venueById } from "@/data/mock";
+import { useMockStore } from "@/context/mock-store";
 
 export const Route = createFileRoute("/app/licensing/$permitId")({
-  loader: ({ params }) => {
-    const permit = permits.find((p) => p.id === params.permitId);
-    if (!permit) throw notFound();
-    return { permit };
-  },
+  head: () => ({
+    meta: [
+      { title: "Review Pengajuan Izin — Futsal Ecosystem" },
+      {
+        name: "description",
+        content:
+          "Detail pengajuan izin: checklist requirement, riwayat proses, dan keputusan reviewer dengan alasan wajib.",
+      },
+      { property: "og:title", content: "Review Pengajuan Izin — Futsal Ecosystem" },
+      {
+        property: "og:description",
+        content: "Verifikasi requirement dan putuskan pengajuan izin event futsal.",
+      },
+    ],
+  }),
   errorComponent: () => <EmptyState title="Pengajuan gagal dimuat" />,
   notFoundComponent: () => <EmptyState title="Pengajuan izin tidak ditemukan" />,
   component: PermitDetail,
 });
 
 function PermitDetail() {
-  const { permit } = Route.useLoaderData();
+  const { permitId } = Route.useParams();
+  const { permitById, decidePermit } = useMockStore();
+  const permit = permitById(permitId);
+  const [reason, setReason] = useState("");
+
+  if (!permit) {
+    return (
+      <EmptyState
+        title="Pengajuan izin tidak ditemukan"
+        description="Pengajuan mungkin sudah dihapus atau tautan tidak valid."
+      />
+    );
+  }
+
   const fulfilled = permit.requirements.filter((r) => r.fulfilled).length;
   const complete = fulfilled === permit.requirements.length;
+  const decided = permit.status === "APPROVED" || permit.status === "REJECTED";
+
+  const decide = (decision: "APPROVE" | "REJECT" | "REQUEST_INFO") => {
+    decidePermit(permit.id, decision, reason.trim());
+    setReason("");
+  };
 
   return (
     <div className="space-y-4">
@@ -107,22 +138,52 @@ function PermitDetail() {
                   id="decision-reason"
                   className="mt-1.5"
                   rows={3}
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  disabled={decided}
                   placeholder="Contoh: seluruh requirement terpenuhi dan venue tersertifikasi."
                 />
               </div>
-              {!complete ? (
-                <p className="text-xs text-warning-foreground">
-                  Requirement belum lengkap — approve akan diblokir oleh policy POL-ORG-004.
+              {decided ? (
+                <p className="text-xs text-muted-foreground">
+                  Keputusan sudah final — pengajuan terkunci untuk perubahan.
                 </p>
-              ) : null}
+              ) : (
+                <>
+                  {!complete ? (
+                    <p className="text-xs text-warning-foreground">
+                      Requirement belum lengkap — approve diblokir oleh policy POL-ORG-004.
+                    </p>
+                  ) : null}
+                  {!reason.trim() ? (
+                    <p className="text-xs text-muted-foreground">
+                      Alasan wajib diisi sebelum keputusan dapat disimpan.
+                    </p>
+                  ) : null}
+                </>
+              )}
               <div className="flex flex-wrap gap-2">
-                <Button size="sm" disabled={!complete}>
-                  Setujui & terbitkan izin
+                <Button
+                  size="sm"
+                  disabled={!complete || decided || !reason.trim()}
+                  onClick={() => decide("APPROVE")}
+                >
+                  Setujui &amp; terbitkan izin
                 </Button>
-                <Button size="sm" variant="outline">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  disabled={decided || !reason.trim()}
+                  onClick={() => decide("REQUEST_INFO")}
+                >
                   Minta informasi tambahan
                 </Button>
-                <Button size="sm" variant="destructive">
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  disabled={decided || !reason.trim()}
+                  onClick={() => decide("REJECT")}
+                >
                   Tolak
                 </Button>
               </div>
