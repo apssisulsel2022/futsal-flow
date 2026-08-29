@@ -211,7 +211,7 @@ export interface Column<T> {
   render: (row: T) => ReactNode;
 }
 
-export function DataTable<T extends { id?: string }>({
+export function DataTable<T>({
   columns,
   rows,
   searchKeys,
@@ -299,7 +299,7 @@ export function DataTable<T extends { id?: string }>({
             ) : (
               visible.map((row, i) => (
                 <tr
-                  key={rowKey ? rowKey(row) : (row.id ?? i)}
+                  key={rowKey ? rowKey(row) : ((row as { id?: string }).id ?? i)}
                   className="border-b border-border last:border-0 hover:bg-muted/40"
                 >
                   {columns.map((c) => (
