@@ -61,15 +61,15 @@ function NewPermitWizard() {
 
   const errors: Record<string, string> = {};
   if (step === 0) {
-    if (!eventName.trim()) errors.eventName = "Nama event wajib diisi.";
-    if (!permitType.trim()) errors.permitType = "Tipe izin wajib diisi.";
+    if (!eventName.trim()) errors["eventName"] = "Nama event wajib diisi.";
+    if (!permitType.trim()) errors["permitType"] = "Tipe izin wajib diisi.";
   }
   if (step === 1) {
-    if (!venueId) errors.venueId = "Venue wajib dipilih.";
-    if (!startDate) errors.startDate = "Tanggal mulai wajib diisi.";
-    if (!endDate) errors.endDate = "Tanggal selesai wajib diisi.";
+    if (!venueId) errors["venueId"] = "Venue wajib dipilih.";
+    if (!startDate) errors["startDate"] = "Tanggal mulai wajib diisi.";
+    if (!endDate) errors["endDate"] = "Tanggal selesai wajib diisi.";
     if (startDate && endDate && endDate < startDate)
-      errors.endDate = "Tanggal selesai tidak boleh sebelum tanggal mulai.";
+      errors["endDate"] = "Tanggal selesai tidak boleh sebelum tanggal mulai.";
   }
   const invalid = Object.keys(errors).length > 0;
 
@@ -140,7 +140,7 @@ function NewPermitWizard() {
       </ol>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <SectionCard title={steps[step]} className="lg:col-span-2">
+        <SectionCard title={steps[step] ?? ""} className="lg:col-span-2">
           {step === 0 ? (
             <div className="space-y-4">
               <div>
