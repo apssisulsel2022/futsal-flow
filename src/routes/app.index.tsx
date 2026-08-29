@@ -70,7 +70,7 @@ function Dashboard() {
 
   const roleMetrics = () => {
     if (role === "referee") {
-      const myRef = referees[0];
+      const myRef = referees[0]!;
       const myAssignments = scopedMatches.filter((m) =>
         m.officials.some((o) => o.refereeId === myRef.id),
       );
