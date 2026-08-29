@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { competitions, publicStandings, matches } from "@/data/mock";
+import { competitions, publicStandings, matches, teamById, venueById } from "@/data/mock";
 import { DataTable, PageHeader, SectionCard, StatusBadge } from "@/components/kit";
 import { Button } from "@/components/ui/button";
 
@@ -65,17 +65,18 @@ function PortalPage() {
             rows={matches}
             rowKey={(m) => m.id}
             columns={[
-              { key: "date", header: "Tanggal", render: (m) => m.kickoffAt.slice(0, 10) },
+              { key: "date", header: "Tanggal", render: (m) => m.kickoff.slice(0, 10) },
               {
                 key: "teams",
                 header: "Pertandingan",
                 render: (m) => (
                   <span className="font-medium">
-                    {m.homeTeamName} vs {m.awayTeamName}
+                    {teamById(m.homeTeamId)?.name ?? m.homeTeamId} vs{" "}
+                    {teamById(m.awayTeamId)?.name ?? m.awayTeamId}
                   </span>
                 ),
               },
-              { key: "venue", header: "Venue", render: (m) => m.venueName },
+              { key: "venue", header: "Venue", render: (m) => venueById(m.venueId)?.name ?? m.venueId },
               { key: "status", header: "Status", render: (m) => <StatusBadge status={m.status} /> },
             ]}
           />
