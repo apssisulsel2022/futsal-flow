@@ -1,9 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DataTable, MetricCard, PageHeader, type Column } from "@/components/kit";
-import { auditEntries, orgById } from "@/data/mock";
+import { useMockStore } from "@/context/mock-store";
+import { orgById } from "@/data/mock";
 import type { AuditEntry } from "@/data/domain";
 
 export const Route = createFileRoute("/app/audit")({
+  head: () => ({
+    meta: [
+      { title: "Audit Trail — Futsal Ecosystem" },
+      {
+        name: "description",
+        content:
+          "Append-only log untuk setiap keputusan kritis: approval, rejection, assignment, payment, dan perubahan izin akses.",
+      },
+      { property: "og:title", content: "Audit Trail — Futsal Ecosystem" },
+      {
+        property: "og:description",
+        content: "WHO · WHAT · WHEN · WHY. Setiap keputusan dapat dijelaskan dan dilacak.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: AuditPage,
 });
 
@@ -49,6 +67,7 @@ const columns: Column<AuditEntry>[] = [
 ];
 
 function AuditPage() {
+  const { audit } = useMockStore();
   return (
     <div className="space-y-4">
       <PageHeader
@@ -57,15 +76,15 @@ function AuditPage() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <MetricCard label="Total entri" value={auditEntries.length} />
-        <MetricCard label="Keputusan izin" value={auditEntries.filter((a) => a.resource === "PermitApplication").length} />
-        <MetricCard label="Penugasan & pertandingan" value={auditEntries.filter((a) => a.resource === "Match").length} />
-        <MetricCard label="Transaksi finansial" value={auditEntries.filter((a) => a.resource === "Honorarium").length} />
+        <MetricCard label="Total entri" value={audit.length} />
+        <MetricCard label="Keputusan izin" value={audit.filter((a) => a.resource === "PermitApplication").length} />
+        <MetricCard label="Penugasan & pertandingan" value={audit.filter((a) => a.resource === "Match").length} />
+        <MetricCard label="Transaksi finansial" value={audit.filter((a) => a.resource === "Honorarium").length} />
       </div>
 
       <DataTable
         columns={columns}
-        rows={auditEntries}
+        rows={audit}
         pageSize={15}
         searchKeys={(a) => `${a.actor} ${a.action} ${a.resource} ${a.resourceId} ${a.reason} ${a.correlationId}`}
         searchPlaceholder="Cari actor, action, resource, correlation ID…"

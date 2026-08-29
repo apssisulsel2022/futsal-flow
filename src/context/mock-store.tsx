@@ -15,7 +15,9 @@ import {
   permits as seedPermits,
   refereeById,
   refereeName,
+  referees as seedReferees,
 } from "@/data/mock";
+import type { Referee } from "@/data/domain";
 import { roleLabels, useAppState } from "@/context/app-state";
 import type {
   AuditEntry,
@@ -52,6 +54,7 @@ interface MockStore {
   matches: Match[];
   honoraria: Honorarium[];
   audit: AuditEntry[];
+  allReferees: Referee[];
   notifications: NotificationItem[];
   unreadCount: number;
   permitById: (id: string) => PermitApplication | undefined;
@@ -134,6 +137,7 @@ export function MockStoreProvider({ children }: { children: ReactNode }) {
   const [matches, setMatches] = useState<Match[]>(() => seedMatches.map((m) => ({ ...m })));
   const [honoraria, setHonoraria] = useState<Honorarium[]>(() => seedHonoraria.map((h) => ({ ...h })));
   const [audit, setAudit] = useState<AuditEntry[]>(() => seedAudit.map((a) => ({ ...a })));
+  const [allReferees, setAllReferees] = useState<Referee[]>(() => seedReferees.map((r) => ({ ...r })));
   const [notifications, setNotifications] = useState<NotificationItem[]>(() =>
     seedNotifications.map((n) => ({ ...n })),
   );
@@ -276,6 +280,13 @@ export function MockStoreProvider({ children }: { children: ReactNode }) {
           o.role === role_ ? { ...o, refereeId, status: "ASSIGNED" } : o,
         ),
       }));
+      setAllReferees((prev) =>
+        prev.map((r) =>
+          r.id === refereeId
+            ? { ...r, assignmentsThisMonth: Math.min(8, r.assignmentsThisMonth + 1) }
+            : r,
+        ),
+      );
       appendAudit({
         action: "RefereeAssigned",
         resource: "Match",
@@ -322,6 +333,17 @@ export function MockStoreProvider({ children }: { children: ReactNode }) {
 
   const clearOfficial = useCallback<MockStore["clearOfficial"]>(
     (matchId, role_) => {
+      const match = matches.find((m) => m.id === matchId);
+      const current = match?.officials.find((o) => o.role === role_);
+      if (current?.refereeId) {
+        setAllReferees((prev) =>
+          prev.map((r) =>
+            r.id === current.refereeId
+              ? { ...r, assignmentsThisMonth: Math.max(0, r.assignmentsThisMonth - 1) }
+              : r,
+          ),
+        );
+      }
       updateMatch(matchId, (m) => ({
         ...m,
         officials: m.officials.map((o) =>
@@ -338,7 +360,7 @@ export function MockStoreProvider({ children }: { children: ReactNode }) {
       });
       toast.success("Penugasan dibatalkan");
     },
-    [appendAudit, updateMatch],
+    [appendAudit, matches, updateMatch],
   );
 
   const addMatchEvent = useCallback<MockStore["addMatchEvent"]>(
@@ -453,6 +475,7 @@ export function MockStoreProvider({ children }: { children: ReactNode }) {
       matches,
       honoraria,
       audit,
+      allReferees,
       notifications,
       unreadCount: notifications.filter((n) => n.unread).length,
       permitById: (id) => permits.find((p) => p.id === id),
@@ -474,6 +497,7 @@ export function MockStoreProvider({ children }: { children: ReactNode }) {
       addMatchEvent,
       advanceHonorarium,
       advanceOfficial,
+      allReferees,
       assignOfficial,
       audit,
       clearOfficial,

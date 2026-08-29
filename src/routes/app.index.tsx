@@ -10,16 +10,12 @@ import {
   type Column,
 } from "@/components/kit";
 import { roleLabels, useAppState } from "@/context/app-state";
+import { useMockStore } from "@/context/mock-store";
 import {
-  auditEntries,
   competitions,
   formatDateTime,
   formatIDR,
-  honoraria,
-  matches,
   people,
-  permits,
-  referees,
   refereeName,
   teamById,
   teams,
@@ -27,11 +23,36 @@ import {
 import type { Match } from "@/data/domain";
 
 export const Route = createFileRoute("/app/")({
+  head: () => ({
+    meta: [
+      { title: "Dashboard — Futsal Ecosystem" },
+      {
+        name: "description",
+        content:
+          "Ringkasan operasional peran dan tenant: metrik utama, fixture mendatang, audit trail, antrean perizinan, dan penugasan wasit.",
+      },
+      { property: "og:title", content: "Dashboard — Futsal Ecosystem" },
+      {
+        property: "og:description",
+        content:
+          "Satu halaman untuk seluruh visibility operasional: metrik, jadwal, audit, dan antrean.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: Dashboard,
 });
 
 function Dashboard() {
   const { role, organizationId, organizationName, actorName } = useAppState();
+  const {
+    permits,
+    matches,
+    honoraria,
+    audit,
+    allReferees,
+  } = useMockStore();
 
   const scopedPermits = permits.filter((p) => p.organizationId === organizationId);
   const scopedMatches = matches.filter((m) => m.organizationId === organizationId);
@@ -70,7 +91,7 @@ function Dashboard() {
 
   const roleMetrics = () => {
     if (role === "referee") {
-      const myRef = referees[0]!;
+      const myRef = allReferees[0]!;
       const myAssignments = scopedMatches.filter((m) =>
         m.officials.some((o) => o.refereeId === myRef.id),
       );
@@ -115,7 +136,7 @@ function Dashboard() {
     return (
       <>
         <MetricCard label="Anggota terdaftar" value={scopedPeople.length} hint="Person kanonik" />
-        <MetricCard label="Wasit aktif" value={referees.filter((r) => r.licenseStatus === "ACTIVE").length} tone="success" />
+        <MetricCard label="Wasit aktif" value={allReferees.filter((r) => r.licenseStatus === "ACTIVE").length} tone="success" />
         <MetricCard label="Izin menunggu keputusan" value={permits.filter((p) => p.status === "UNDER_REVIEW").length} tone="warning" />
         <MetricCard
           label="Honorarium belum dibayar"
@@ -154,7 +175,7 @@ function Dashboard() {
 
         <SectionCard title="Aktivitas & audit terbaru" description="WHO · WHAT · WHEN · WHY">
           <Timeline
-            items={auditEntries.slice(0, 4).map((a) => ({
+            items={audit.slice(0, 4).map((a) => ({
               at: a.at,
               actor: `${a.actor} (${a.actorRole})`,
               action: a.action,

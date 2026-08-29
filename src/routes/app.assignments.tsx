@@ -14,7 +14,6 @@ import {
   competitionById,
   formatDateTime,
   personById,
-  referees,
   refereeName,
   teamById,
 } from "@/data/mock";
@@ -35,13 +34,15 @@ export const Route = createFileRoute("/app/assignments")({
         property: "og:description",
         content: "Assign → confirm → attendance dengan pemblokiran otomatis wasit tidak eligible.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AssignmentsPage,
 });
 
 function AssignmentsPage() {
-  const { matches, assignOfficial, advanceOfficial, clearOfficial } = useMockStore();
+  const { matches, allReferees, assignOfficial, advanceOfficial, clearOfficial } = useMockStore();
   const [openSlot, setOpenSlot] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState("ALL");
 
@@ -93,7 +94,7 @@ function AssignmentsPage() {
         {openSlots.length ? (
           <ul className="divide-y divide-border">
             {openSlots.map((s) => {
-              const ranked = referees
+              const ranked = allReferees
                 .map((r) => ({ referee: r, ...evaluateEligibility(r.id, s.match) }))
                 .sort((a, b) => Number(b.eligible) - Number(a.eligible) || b.score - a.score);
               const eligible = ranked.filter((r) => r.eligible);
@@ -177,7 +178,7 @@ function AssignmentsPage() {
         bodyClassName="p-0"
       >
         <DataTable
-          rows={referees}
+          rows={allReferees}
           columns={[
             {
               key: "name",
