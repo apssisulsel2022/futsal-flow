@@ -16,6 +16,7 @@ import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppMasterDataRouteImport } from './routes/app.master-data'
 import { Route as AppRefereesRouteImport } from './routes/app.referees'
 import { Route as AppLicensingIndexRouteImport } from './routes/app.licensing.index'
+import { Route as AppLicensingPermitIdRouteImport } from './routes/app.licensing.$permitId'
 import { Route as AppOrganizationsIndexRouteImport } from './routes/app.organizations.index'
 import { Route as AppOrganizationsOrgIdRouteImport } from './routes/app.organizations.$orgId'
 import { Route as AppOrganizationsNewRouteImport } from './routes/app.organizations.new'
@@ -57,6 +58,11 @@ const AppLicensingIndexRoute = AppLicensingIndexRouteImport.update({
   path: '/licensing/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppLicensingPermitIdRoute = AppLicensingPermitIdRouteImport.update({
+  id: '/licensing/$permitId',
+  path: '/licensing/$permitId',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppOrganizationsIndexRoute = AppOrganizationsIndexRouteImport.update({
   id: '/organizations/',
   path: '/organizations/',
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/app/master-data': typeof AppMasterDataRoute
   '/app/referees': typeof AppRefereesRoute
   '/app/': typeof AppIndexRoute
+  '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
   '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
   '/app/organizations/new': typeof AppOrganizationsNewRoute
   '/app/people/$personId': typeof AppPeoplePersonIdRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/app/master-data': typeof AppMasterDataRoute
   '/app/referees': typeof AppRefereesRoute
   '/app': typeof AppIndexRoute
+  '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
   '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
   '/app/organizations/new': typeof AppOrganizationsNewRoute
   '/app/people/$personId': typeof AppPeoplePersonIdRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/app/master-data': typeof AppMasterDataRoute
   '/app/referees': typeof AppRefereesRoute
   '/app/': typeof AppIndexRoute
+  '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
   '/app/organizations/$orgId': typeof AppOrganizationsOrgIdRoute
   '/app/organizations/new': typeof AppOrganizationsNewRoute
   '/app/people/$personId': typeof AppPeoplePersonIdRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/app/master-data'
     | '/app/referees'
     | '/app/'
+    | '/app/licensing/$permitId'
     | '/app/organizations/$orgId'
     | '/app/organizations/new'
     | '/app/people/$personId'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/app/master-data'
     | '/app/referees'
     | '/app'
+    | '/app/licensing/$permitId'
     | '/app/organizations/$orgId'
     | '/app/organizations/new'
     | '/app/people/$personId'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/app/master-data'
     | '/app/referees'
     | '/app/'
+    | '/app/licensing/$permitId'
     | '/app/organizations/$orgId'
     | '/app/organizations/new'
     | '/app/people/$personId'
@@ -226,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLicensingIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/licensing/$permitId': {
+      id: '/app/licensing/$permitId'
+      path: '/licensing/$permitId'
+      fullPath: '/app/licensing/$permitId'
+      preLoaderRoute: typeof AppLicensingPermitIdRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/organizations/': {
       id: '/app/organizations/'
       path: '/organizations'
@@ -268,6 +287,7 @@ interface AppRouteChildren {
   AppMasterDataRoute: typeof AppMasterDataRoute
   AppRefereesRoute: typeof AppRefereesRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppLicensingPermitIdRoute: typeof AppLicensingPermitIdRoute
   AppOrganizationsOrgIdRoute: typeof AppOrganizationsOrgIdRoute
   AppOrganizationsNewRoute: typeof AppOrganizationsNewRoute
   AppPeoplePersonIdRoute: typeof AppPeoplePersonIdRoute
@@ -280,6 +300,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppMasterDataRoute: AppMasterDataRoute,
   AppRefereesRoute: AppRefereesRoute,
   AppIndexRoute: AppIndexRoute,
+  AppLicensingPermitIdRoute: AppLicensingPermitIdRoute,
   AppOrganizationsOrgIdRoute: AppOrganizationsOrgIdRoute,
   AppOrganizationsNewRoute: AppOrganizationsNewRoute,
   AppPeoplePersonIdRoute: AppPeoplePersonIdRoute,
