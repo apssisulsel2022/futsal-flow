@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppAssignmentsRouteImport } from './routes/app.assignments'
 import { Route as AppAuditRouteImport } from './routes/app.audit'
+import { Route as AppGovernanceRouteImport } from './routes/app.governance'
 import { Route as AppHonorariumRouteImport } from './routes/app.honorarium'
 import { Route as AppMasterDataRouteImport } from './routes/app.master-data'
 import { Route as AppRefereesRouteImport } from './routes/app.referees'
@@ -56,6 +57,11 @@ const AppAssignmentsRoute = AppAssignmentsRouteImport.update({
 const AppAuditRoute = AppAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGovernanceRoute = AppGovernanceRouteImport.update({
+  id: '/governance',
+  path: '/governance',
   getParentRoute: () => AppRoute,
 } as any)
 const AppHonorariumRoute = AppHonorariumRouteImport.update({
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/app/assignments': typeof AppAssignmentsRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/governance': typeof AppGovernanceRoute
   '/app/honorarium': typeof AppHonorariumRoute
   '/app/master-data': typeof AppMasterDataRoute
   '/app/referees': typeof AppRefereesRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/app/assignments': typeof AppAssignmentsRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/governance': typeof AppGovernanceRoute
   '/app/honorarium': typeof AppHonorariumRoute
   '/app/master-data': typeof AppMasterDataRoute
   '/app/referees': typeof AppRefereesRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/app/assignments': typeof AppAssignmentsRoute
   '/app/audit': typeof AppAuditRoute
+  '/app/governance': typeof AppGovernanceRoute
   '/app/honorarium': typeof AppHonorariumRoute
   '/app/master-data': typeof AppMasterDataRoute
   '/app/referees': typeof AppRefereesRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/app/assignments'
     | '/app/audit'
+    | '/app/governance'
     | '/app/honorarium'
     | '/app/master-data'
     | '/app/referees'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/app/assignments'
     | '/app/audit'
+    | '/app/governance'
     | '/app/honorarium'
     | '/app/master-data'
     | '/app/referees'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/app/assignments'
     | '/app/audit'
+    | '/app/governance'
     | '/app/honorarium'
     | '/app/master-data'
     | '/app/referees'
@@ -289,6 +301,13 @@ declare module '@tanstack/react-router' {
       path: '/audit'
       fullPath: '/app/audit'
       preLoaderRoute: typeof AppAuditRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/governance': {
+      id: '/app/governance'
+      path: '/governance'
+      fullPath: '/app/governance'
+      preLoaderRoute: typeof AppGovernanceRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/honorarium': {
@@ -381,6 +400,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppAssignmentsRoute: typeof AppAssignmentsRoute
   AppAuditRoute: typeof AppAuditRoute
+  AppGovernanceRoute: typeof AppGovernanceRoute
   AppHonorariumRoute: typeof AppHonorariumRoute
   AppMasterDataRoute: typeof AppMasterDataRoute
   AppRefereesRoute: typeof AppRefereesRoute
@@ -399,6 +419,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAssignmentsRoute: AppAssignmentsRoute,
   AppAuditRoute: AppAuditRoute,
+  AppGovernanceRoute: AppGovernanceRoute,
   AppHonorariumRoute: AppHonorariumRoute,
   AppMasterDataRoute: AppMasterDataRoute,
   AppRefereesRoute: AppRefereesRoute,
