@@ -26,9 +26,12 @@ export const Route = createFileRoute("/app")({
 function AppLayout() {
   return (
     <AppStateProvider>
-      <AppShell>
-        <Outlet />
-      </AppShell>
+      <MockStoreProvider>
+        <AppShell>
+          <Outlet />
+        </AppShell>
+      </MockStoreProvider>
     </AppStateProvider>
   );
 }
+
