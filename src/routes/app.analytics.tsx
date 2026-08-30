@@ -12,6 +12,16 @@ import {
 } from "@/data/mock";
 
 export const Route = createFileRoute("/app/analytics")({
+  head: () => ({
+    meta: [
+      { title: "Analitik Operasional — Futsal Ecosystem" },
+      { name: "description", content: "Dashboard analitik distribusi perizinan, beban kerja wasit, dan performa operasional kompetisi futsal." },
+      { property: "og:title", content: "Analitik Operasional — Futsal Ecosystem" },
+      { property: "og:description", content: "Dashboard analitik distribusi perizinan, beban kerja wasit, dan performa operasional kompetisi futsal." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: AnalyticsPage,
 });
 

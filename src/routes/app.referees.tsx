@@ -12,6 +12,16 @@ import { formatDate, matches, personById, referees, teamById } from "@/data/mock
 import type { Referee } from "@/data/domain";
 
 export const Route = createFileRoute("/app/referees")({
+  head: () => ({
+    meta: [
+      { title: "Registri Wasit — Futsal Ecosystem" },
+      { name: "description", content: "Data wasit, lisensi, tingkatan, dan ketersediaan mingguan untuk penugasan pertandingan." },
+      { property: "og:title", content: "Registri Wasit — Futsal Ecosystem" },
+      { property: "og:description", content: "Data wasit, lisensi, tingkatan, dan ketersediaan mingguan untuk penugasan pertandingan." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: RefereesPage,
 });
 

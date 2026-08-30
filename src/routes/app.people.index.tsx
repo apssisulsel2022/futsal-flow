@@ -6,6 +6,16 @@ import { useAppState } from "@/context/app-state";
 import type { Person } from "@/data/domain";
 
 export const Route = createFileRoute("/app/people/")({
+  head: () => ({
+    meta: [
+      { title: "Registri Orang — Futsal Ecosystem" },
+      { name: "description", content: "Satu identitas untuk pemain, pelatih, wasit, dan pengurus dalam registri terpadu." },
+      { property: "og:title", content: "Registri Orang — Futsal Ecosystem" },
+      { property: "og:description", content: "Satu identitas untuk pemain, pelatih, wasit, dan pengurus dalam registri terpadu." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: PeoplePage,
 });
 

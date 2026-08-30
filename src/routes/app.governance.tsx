@@ -6,6 +6,16 @@ import { roleLabels } from "@/context/app-state";
 import type { RoleKey } from "@/data/domain";
 
 export const Route = createFileRoute("/app/governance")({
+  head: () => ({
+    meta: [
+      { title: "Tata Kelola & Matriks Izin — Futsal Ecosystem" },
+      { name: "description", content: "Matriks peran dan izin sistem, kebijakan tata kelola, serta kontrol kepatuhan platform futsal." },
+      { property: "og:title", content: "Tata Kelola & Matriks Izin — Futsal Ecosystem" },
+      { property: "og:description", content: "Matriks peran dan izin sistem, kebijakan tata kelola, serta kontrol kepatuhan platform futsal." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: GovernancePage,
 });
 

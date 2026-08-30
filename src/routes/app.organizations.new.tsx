@@ -14,6 +14,16 @@ import { MockNotice, PageHeader, SectionCard, Timeline } from "@/components/kit"
 import { organizations } from "@/data/mock";
 
 export const Route = createFileRoute("/app/organizations/new")({
+  head: () => ({
+    meta: [
+      { title: "Daftarkan Organisasi — Futsal Ecosystem" },
+      { name: "description", content: "Formulir pendaftaran organisasi baru ke dalam ekosistem futsal." },
+      { property: "og:title", content: "Daftarkan Organisasi — Futsal Ecosystem" },
+      { property: "og:description", content: "Formulir pendaftaran organisasi baru ke dalam ekosistem futsal." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: NewOrganization,
 });
 
