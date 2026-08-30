@@ -25,6 +25,7 @@ import { Route as AppMasterDataRouteImport } from './routes/app.master-data'
 import { Route as AppRefereesRouteImport } from './routes/app.referees'
 import { Route as AppTeamsRouteImport } from './routes/app.teams'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as PortalFixturesRouteImport } from './routes/portal.fixtures'
 import { Route as AppLicensingIndexRouteImport } from './routes/app.licensing.index'
 import { Route as AppLicensingPermitIdRouteImport } from './routes/app.licensing.$permitId'
 import { Route as AppLicensingNewRouteImport } from './routes/app.licensing.new'
@@ -116,6 +117,11 @@ const PortalIndexRoute = PortalIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PortalRoute,
 } as any)
+const PortalFixturesRoute = PortalFixturesRouteImport.update({
+  id: '/fixtures',
+  path: '/fixtures',
+  getParentRoute: () => PortalRoute,
+} as any)
 const AppLicensingIndexRoute = AppLicensingIndexRouteImport.update({
   id: '/licensing/',
   path: '/licensing/',
@@ -182,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/app/master-data': typeof AppMasterDataRoute
   '/app/referees': typeof AppRefereesRoute
   '/app/teams': typeof AppTeamsRoute
+  '/portal/fixtures': typeof PortalFixturesRoute
   '/app/': typeof AppIndexRoute
   '/portal/': typeof PortalIndexRoute
   '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/app/master-data': typeof AppMasterDataRoute
   '/app/referees': typeof AppRefereesRoute
   '/app/teams': typeof AppTeamsRoute
+  '/portal/fixtures': typeof PortalFixturesRoute
   '/app': typeof AppIndexRoute
   '/portal': typeof PortalIndexRoute
   '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
@@ -237,6 +245,7 @@ export interface FileRoutesById {
   '/app/master-data': typeof AppMasterDataRoute
   '/app/referees': typeof AppRefereesRoute
   '/app/teams': typeof AppTeamsRoute
+  '/portal/fixtures': typeof PortalFixturesRoute
   '/app/': typeof AppIndexRoute
   '/portal/': typeof PortalIndexRoute
   '/app/licensing/$permitId': typeof AppLicensingPermitIdRoute
@@ -267,6 +276,7 @@ export interface FileRouteTypes {
     | '/app/master-data'
     | '/app/referees'
     | '/app/teams'
+    | '/portal/fixtures'
     | '/app/'
     | '/portal/'
     | '/app/licensing/$permitId'
@@ -293,6 +303,7 @@ export interface FileRouteTypes {
     | '/app/master-data'
     | '/app/referees'
     | '/app/teams'
+    | '/portal/fixtures'
     | '/app'
     | '/portal'
     | '/app/licensing/$permitId'
@@ -321,6 +332,7 @@ export interface FileRouteTypes {
     | '/app/master-data'
     | '/app/referees'
     | '/app/teams'
+    | '/portal/fixtures'
     | '/app/'
     | '/portal/'
     | '/app/licensing/$permitId'
@@ -456,6 +468,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalIndexRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/portal/fixtures': {
+      id: '/portal/fixtures'
+      path: '/fixtures'
+      fullPath: '/portal/fixtures'
+      preLoaderRoute: typeof PortalFixturesRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/app/licensing/': {
       id: '/app/licensing/'
       path: '/licensing'
@@ -580,10 +599,12 @@ const AppRouteChildren: AppRouteChildren = {
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface PortalRouteChildren {
+  PortalFixturesRoute: typeof PortalFixturesRoute
   PortalIndexRoute: typeof PortalIndexRoute
 }
 
 const PortalRouteChildren: PortalRouteChildren = {
+  PortalFixturesRoute: PortalFixturesRoute,
   PortalIndexRoute: PortalIndexRoute,
 }
 
