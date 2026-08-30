@@ -13,6 +13,16 @@ import {
 import { formatDate, orgById, personById, referees } from "@/data/mock";
 
 export const Route = createFileRoute("/app/people/$personId")({
+  head: () => ({
+    meta: [
+      { title: "Profil Identitas — Futsal Ecosystem" },
+      { name: "description", content: "Profil identitas tunggal dengan seluruh peran, lisensi, dan verifikasi terkait." },
+      { property: "og:title", content: "Profil Identitas — Futsal Ecosystem" },
+      { property: "og:description", content: "Profil identitas tunggal dengan seluruh peran, lisensi, dan verifikasi terkait." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   loader: ({ params }) => {
     const person = personById(params.personId);
     if (!person) throw notFound();

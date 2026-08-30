@@ -1,11 +1,30 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { DataTable, PageHeader, SectionCard, StatusBadge, type Column } from "@/components/kit";
+import {
+  DataTable,
+  FilterSelect,
+  PageHeader,
+  SectionCard,
+  StatusBadge,
+  statusOptions,
+  type Column,
+} from "@/components/kit";
 import { formatDate, people } from "@/data/mock";
 import { useAppState } from "@/context/app-state";
 import type { Person } from "@/data/domain";
 
 export const Route = createFileRoute("/app/people/")({
+  head: () => ({
+    meta: [
+      { title: "Registri Orang — Futsal Ecosystem" },
+      { name: "description", content: "Satu identitas untuk pemain, pelatih, wasit, dan pengurus dalam registri terpadu." },
+      { property: "og:title", content: "Registri Orang — Futsal Ecosystem" },
+      { property: "og:description", content: "Satu identitas untuk pemain, pelatih, wasit, dan pengurus dalam registri terpadu." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: PeoplePage,
 });
 
@@ -48,8 +67,15 @@ const columns: Column<Person>[] = [
 
 function PeoplePage() {
   const { organizationId } = useAppState();
-  const rows = people.filter((p) => p.organizationId === organizationId);
-  const pendingDocs = rows.flatMap((p) => p.documents).filter((d) => d.status === "PENDING").length;
+  const [status, setStatus] = useState("ALL");
+  const [profile, setProfile] = useState("ALL");
+  const all = people.filter((p) => p.organizationId === organizationId);
+  const rows = all.filter(
+    (p) =>
+      (status === "ALL" || p.status === status) &&
+      (profile === "ALL" || p.profiles.includes(profile as Person["profiles"][number])),
+  );
+  const pendingDocs = all.flatMap((p) => p.documents).filter((d) => d.status === "PENDING").length;
 
   return (
     <div className="space-y-4">
@@ -63,12 +89,12 @@ function PeoplePage() {
       <div className="grid gap-4 sm:grid-cols-3">
         <SectionCard>
           <p className="text-xs tracking-wide text-muted-foreground uppercase">Total person</p>
-          <p className="mt-1 text-2xl font-semibold tabular-nums">{rows.length}</p>
+          <p className="mt-1 text-2xl font-semibold tabular-nums">{all.length}</p>
         </SectionCard>
         <SectionCard>
           <p className="text-xs tracking-wide text-muted-foreground uppercase">Identitas terverifikasi</p>
           <p className="mt-1 text-2xl font-semibold tabular-nums">
-            {rows.filter((p) => p.identityVerified).length}
+            {all.filter((p) => p.identityVerified).length}
           </p>
         </SectionCard>
         <SectionCard>
@@ -80,6 +106,22 @@ function PeoplePage() {
       <DataTable
         columns={columns}
         rows={rows}
+        filters={
+          <>
+            <FilterSelect
+              label="Status"
+              value={status}
+              onChange={setStatus}
+              options={statusOptions(["ACTIVE", "INACTIVE", "SUSPENDED"])}
+            />
+            <FilterSelect
+              label="Profil"
+              value={profile}
+              onChange={setProfile}
+              options={statusOptions(["PLAYER", "COACH", "REFEREE", "OFFICIAL", "ADMIN"])}
+            />
+          </>
+        }
         searchKeys={(p) => `${p.fullName} ${p.nickname} ${p.city} ${p.email} ${p.profiles.join(" ")}`}
         searchPlaceholder="Cari nama, kota, profil…"
         emptyTitle="Tidak ada person pada tenant ini"

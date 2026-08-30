@@ -7,6 +7,16 @@ import { roleActor, roleLabels, useAppState } from "@/context/app-state";
 import type { RoleKey } from "@/data/domain";
 
 export const Route = createFileRoute("/app/identity")({
+  head: () => ({
+    meta: [
+      { title: "Identitas Saya — Futsal Ecosystem" },
+      { name: "description", content: "Kelola identitas tunggal, peran aktif, dan pengaturan keamanan akun Anda." },
+      { property: "og:title", content: "Identitas Saya — Futsal Ecosystem" },
+      { property: "og:description", content: "Kelola identitas tunggal, peran aktif, dan pengaturan keamanan akun Anda." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: IdentityPage,
 });
 

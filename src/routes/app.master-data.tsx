@@ -4,6 +4,16 @@ import { DataTable, MockNotice, PageHeader, StatusBadge } from "@/components/kit
 import { masterData, venues } from "@/data/mock";
 
 export const Route = createFileRoute("/app/master-data")({
+  head: () => ({
+    meta: [
+      { title: "Master Data Referensi — Futsal Ecosystem" },
+      { name: "description", content: "Referensi kategori kompetisi, standar venue, dan tingkatan lisensi wasit." },
+      { property: "og:title", content: "Master Data Referensi — Futsal Ecosystem" },
+      { property: "og:description", content: "Referensi kategori kompetisi, standar venue, dan tingkatan lisensi wasit." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: MasterDataPage,
 });
 

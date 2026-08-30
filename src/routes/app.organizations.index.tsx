@@ -5,6 +5,16 @@ import { formatDate, organizations } from "@/data/mock";
 import type { Organization } from "@/data/domain";
 
 export const Route = createFileRoute("/app/organizations/")({
+  head: () => ({
+    meta: [
+      { title: "Direktori Organisasi — Futsal Ecosystem" },
+      { name: "description", content: "Direktori organisasi futsal: asosiasi, klub, dan event organizer beserta status keanggotaannya." },
+      { property: "og:title", content: "Direktori Organisasi — Futsal Ecosystem" },
+      { property: "og:description", content: "Direktori organisasi futsal: asosiasi, klub, dan event organizer beserta status keanggotaannya." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: OrganizationsPage,
 });
 

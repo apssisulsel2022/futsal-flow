@@ -13,6 +13,16 @@ import {
 import { auditEntries, formatDate, orgById, organizations, people, teams } from "@/data/mock";
 
 export const Route = createFileRoute("/app/organizations/$orgId")({
+  head: () => ({
+    meta: [
+      { title: "Detail Organisasi — Futsal Ecosystem" },
+      { name: "description", content: "Profil organisasi, hierarki induk-anak, keanggotaan, kebijakan, dan jejak audit." },
+      { property: "og:title", content: "Detail Organisasi — Futsal Ecosystem" },
+      { property: "og:description", content: "Profil organisasi, hierarki induk-anak, keanggotaan, kebijakan, dan jejak audit." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   loader: ({ params }) => {
     const org = orgById(params.orgId);
     if (!org) throw notFound();

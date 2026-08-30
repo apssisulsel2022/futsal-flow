@@ -5,6 +5,16 @@ import { competitions, matches, orgById, publicStandings } from "@/data/mock";
 import type { Competition } from "@/data/domain";
 
 export const Route = createFileRoute("/app/competitions")({
+  head: () => ({
+    meta: [
+      { title: "Manajemen Kompetisi — Futsal Ecosystem" },
+      { name: "description", content: "Kelola kompetisi, musim, kategori, dan read-model klasemen publik dalam satu tempat." },
+      { property: "og:title", content: "Manajemen Kompetisi — Futsal Ecosystem" },
+      { property: "og:description", content: "Kelola kompetisi, musim, kategori, dan read-model klasemen publik dalam satu tempat." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: CompetitionsPage,
 });
 

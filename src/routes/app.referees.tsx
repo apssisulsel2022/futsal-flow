@@ -1,17 +1,30 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   DataTable,
+  FilterSelect,
   MetricCard,
   PageHeader,
   SectionCard,
   StatusBadge,
+  statusOptions,
   type Column,
 } from "@/components/kit";
 import { formatDate, matches, personById, referees, teamById } from "@/data/mock";
 import type { Referee } from "@/data/domain";
 
 export const Route = createFileRoute("/app/referees")({
+  head: () => ({
+    meta: [
+      { title: "Registri Wasit — Futsal Ecosystem" },
+      { name: "description", content: "Data wasit, lisensi, tingkatan, dan ketersediaan mingguan untuk penugasan pertandingan." },
+      { property: "og:title", content: "Registri Wasit — Futsal Ecosystem" },
+      { property: "og:description", content: "Data wasit, lisensi, tingkatan, dan ketersediaan mingguan untuk penugasan pertandingan." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: RefereesPage,
 });
 
@@ -61,6 +74,10 @@ const columns: Column<Referee>[] = [
 ];
 
 function RefereesPage() {
+  const [licenseStatus, setLicenseStatus] = useState("ALL");
+  const registryRows = referees.filter(
+    (r) => licenseStatus === "ALL" || r.licenseStatus === licenseStatus,
+  );
   const assignments = matches.flatMap((m) =>
     m.officials.filter((o) => o.refereeId).map((o) => ({ match: m, official: o })),
   );
@@ -95,7 +112,15 @@ function RefereesPage() {
         <TabsContent value="registry" className="mt-4">
           <DataTable
             columns={columns}
-            rows={referees}
+            rows={registryRows}
+            filters={
+              <FilterSelect
+                label="Lisensi"
+                value={licenseStatus}
+                onChange={setLicenseStatus}
+                options={statusOptions(["ACTIVE", "UNDER_REVIEW", "EXPIRED", "SUSPENDED"])}
+              />
+            }
             searchKeys={(r) => `${personById(r.personId)?.fullName ?? ""} ${r.grade} ${r.city} ${r.licenseNo}`}
             searchPlaceholder="Cari wasit, grade, kota…"
           />

@@ -5,6 +5,16 @@ import { orgById, teams } from "@/data/mock";
 import type { Team } from "@/data/domain";
 
 export const Route = createFileRoute("/app/teams")({
+  head: () => ({
+    meta: [
+      { title: "Registrasi Tim — Futsal Ecosystem" },
+      { name: "description", content: "Kelola registrasi tim, skuad, dan kelayakan tim untuk kompetisi." },
+      { property: "og:title", content: "Registrasi Tim — Futsal Ecosystem" },
+      { property: "og:description", content: "Kelola registrasi tim, skuad, dan kelayakan tim untuk kompetisi." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: TeamsPage,
 });
 
