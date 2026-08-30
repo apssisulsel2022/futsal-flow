@@ -1,11 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   DataTable,
+  FilterSelect,
   MetricCard,
   PageHeader,
   SectionCard,
   StatusBadge,
+  statusOptions,
   type Column,
 } from "@/components/kit";
 import { formatDate, matches, personById, referees, teamById } from "@/data/mock";
@@ -71,6 +74,10 @@ const columns: Column<Referee>[] = [
 ];
 
 function RefereesPage() {
+  const [licenseStatus, setLicenseStatus] = useState("ALL");
+  const registryRows = referees.filter(
+    (r) => licenseStatus === "ALL" || r.licenseStatus === licenseStatus,
+  );
   const assignments = matches.flatMap((m) =>
     m.officials.filter((o) => o.refereeId).map((o) => ({ match: m, official: o })),
   );
@@ -105,7 +112,15 @@ function RefereesPage() {
         <TabsContent value="registry" className="mt-4">
           <DataTable
             columns={columns}
-            rows={referees}
+            rows={registryRows}
+            filters={
+              <FilterSelect
+                label="Lisensi"
+                value={licenseStatus}
+                onChange={setLicenseStatus}
+                options={statusOptions(["ACTIVE", "UNDER_REVIEW", "EXPIRED", "SUSPENDED"])}
+              />
+            }
             searchKeys={(r) => `${personById(r.personId)?.fullName ?? ""} ${r.grade} ${r.city} ${r.licenseNo}`}
             searchPlaceholder="Cari wasit, grade, kota…"
           />
